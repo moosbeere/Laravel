@@ -1,4 +1,5 @@
-@include ('header')
+@extends('layouts.layout')
+@section
 
 <div>
     @foreach ($name as $key)
@@ -7,6 +8,4 @@
 
 
 </div>
-</body>
-
-</html>
+@endsection

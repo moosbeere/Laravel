@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ArticleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +15,10 @@ use App\Http\Controllers\ContactController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/main', function () {
     return view('main');
 });
-Route::get('/contact', [ContactController::class,'index']);
-Route::get('/about', function () {
-    return view('about');
+Route::get('/contact', [ArticleController::class,'index']);
+Route::get('/article', function () {
+    return view('article');
 });
+Route::post('/article', [ArticleController::class, 'create']);
