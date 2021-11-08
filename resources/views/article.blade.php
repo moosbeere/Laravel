@@ -11,8 +11,7 @@
     </div>
     <form method="post"> 
         @csrf
-<<<<<<< Updated upstream
-=======
+
         <h1>Новости</h1>
         <div>
             <input type="text" name="name" id="name" placeholder="Введите заголовок">
@@ -22,7 +21,7 @@
         <div>
              <textarea name="description" id="description" cols="30" rows="10" placeholder="Описание новости"></textarea>
         </div>
->>>>>>> Stashed changes
+
         <button type="submit">Отправить</button>
     </form>
 @endsection
