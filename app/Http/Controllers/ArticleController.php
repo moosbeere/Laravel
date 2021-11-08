@@ -10,6 +10,7 @@ class ArticleController extends Controller
     public function index(){
         return view('main');
     }
+    
     public function contact(){
         $contact=[
             'adres'=>'Большая семеновская',
@@ -26,7 +27,8 @@ class ArticleController extends Controller
         $article->name = request('name');
         $article->shorttext = request('description');
         $article->dataCreate = request('date');
-        return $article->save();
+        $article->save();
+        return redirect('/')->with('msg', 'Новость создана!');
 
     }
 
