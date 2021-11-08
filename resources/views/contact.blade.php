@@ -1,8 +1,8 @@
 @extends('layouts.layout')
-@section
+@section ('content')
 
 <div>
-    @foreach ($name as $key)
+    @foreach ($contact as $key)
     <p>{{$key}}</p>
     @endforeach
 
