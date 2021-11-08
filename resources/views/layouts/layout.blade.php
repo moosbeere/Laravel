@@ -69,9 +69,8 @@
     </head>
     <body>
         <header>
-            <a href="main">Главная</a>
-            <a href="article">О нас</a>
-            <a href="contact">Контакты</a>
+            <a href="/">Главная</a>
+            <a href="article">Новости</a>
         </header>
         @yield('content')
         </body>

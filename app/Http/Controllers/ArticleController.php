@@ -8,14 +8,7 @@ use App\Models\Articles;
 class ArticleController extends Controller
 {
     public function index(){
-        $bla=[
-            'adres'=>'Большая семеновская',
-            'tel'=>'8(495)232-2323',
-            'email'=>'@mospolitech.ru'
-        ];
-
-
-        return view('contact', ['name'=>$bla]);
+       return view('article');
     }
 
     public function create(){

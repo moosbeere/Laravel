@@ -17,8 +17,5 @@ use App\Http\Controllers\ArticleController;
 Route::get('/', function () {
     return view('main');
 });
-Route::get('/contact', [ArticleController::class,'index']);
-Route::get('/article', function () {
-    return view('article');
-});
+Route::get('/article', [ArticleController::class, 'index']);
 Route::post('/article', [ArticleController::class, 'create']);
