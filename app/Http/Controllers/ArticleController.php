@@ -8,7 +8,7 @@ use App\Models\Articles;
 class ArticleController extends Controller
 {
     public function index(){
-        $articles = Articles::where('name', 'new letter')->get();
+        $articles = Articles::all();
         return view('main', ['articles' => $articles]);
     }
 
