@@ -8,17 +8,12 @@ use App\Models\Articles;
 class ArticleController extends Controller
 {
     public function index(){
-        return view('main');
+        $articles = Articles::where('name', 'new letter')->get();
+        return view('main', ['articles' => $articles]);
     }
-    public function contact(){
-        $contact=[
-            'adres'=>'Большая семеновская',
-            'tel'=>'8(495)232-2323',
-            'email'=>'@mospolitech.ru'
-        ];
 
-
-        return view('contact', ['contact'=>$contact]);
+    public function article(){
+        return view('article');
     }
 
     public function create(){
@@ -29,6 +24,15 @@ class ArticleController extends Controller
         return $article->save();
 
     }
+   public function contact(){
+        $contact=[
+            'adres'=>'Большая семеновская',
+            'tel'=>'8(495)232-2323',
+            'email'=>'@mospolitech.ru'
+        ];
 
+
+        return view('contact', ['contact'=>$contact]);
+    }
 }
 

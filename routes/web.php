@@ -14,11 +14,7 @@ use App\Http\Controllers\ArticleController;
 |
 */
 
-Route::get('/', function () {
-    return view('main');
-});
-Route::get('/contact', [ArticleController::class,'index']);
-Route::get('/article', function () {
-    return view('article');
-});
+Route::get('/', [ArticleController::class,'index']);
+Route::get('/contact', [ArticleController::class,'contact']);
+Route::get('/article', [ArticleController::class,'article']);
 Route::post('/article', [ArticleController::class, 'create']);
