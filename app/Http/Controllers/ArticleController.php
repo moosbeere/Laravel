@@ -8,27 +8,29 @@ use App\Models\Articles;
 class ArticleController extends Controller
 {
     public function index(){
-        return view('main');
-    }
-    public function contact(){
-        $contact=[
-            'adres'=>'Большая семеновская',
-            'tel'=>'8(495)232-2323',
-            'email'=>'@mospolitech.ru'
-        ];
+        $aricles = Articles::all();
 
-
-        return view('contact', ['contact'=>$contact]);
+        return view('articles.index',['articles'=> $aricles]);
     }
 
     public function create(){
-        $article = new Articles();
-        $article->name = request('name');
-        $article->shorttext = request('description');
-        $article->dataCreate = request('date');
-        return $article->save();
-
+        return view('articles.create');
     }
 
+    public function store(){
+        $article = new Articles();
+        $article->name = request('name');
+        $article->short_text = request('description');
+        $article->data_create = request('date');
+        $article->save();
+
+        return redirect('articles');
+    }
+
+    public function view($id){
+        $article = Articles::findOrFail($id);
+
+        return view('articles.view',['article'=>$article]);
+    }
 }
 

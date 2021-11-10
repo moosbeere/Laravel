@@ -17,8 +17,17 @@ use App\Http\Controllers\ArticleController;
 Route::get('/', function () {
     return view('main');
 });
-Route::get('/contact', [ArticleController::class,'index']);
-Route::get('/article', function () {
-    return view('article');
+Route::get('/articles', [ArticleController::class,'index']);
+Route::get('/articles/create', [ArticleController::class,'create']);
+Route::get('/articles/{id}', [ArticleController::class,'view']);
+Route::post('/articles', [ArticleController::class, 'store']);
+
+Route::get('/about', function () {
+    $contact=[
+        'adres'=>'Большая семеновская',
+        'tel'=>'8(495)232-2323',
+        'email'=>'@mospolitech.ru'
+    ];
+
+    return view('about',['contact' => $contact]);
 });
-Route::post('/article', [ArticleController::class, 'create']);
