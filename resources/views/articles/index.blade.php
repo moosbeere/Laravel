@@ -14,3 +14,4 @@
     <br>
     {{ $articles->links() }}
 @endsection
+@endsection
