@@ -8,15 +8,26 @@ use App\Models\Articles;
 class ArticleController extends Controller
 {
     public function index(){
-       return view('article');
+        $articles = Articles::all();
+       return view('articles.index', ['articles' => $articles]);
     }
 
     public function create(){
+        return view('articles.create');
+    }
+
+    public function show($id){
+        $article = Articles::findOrFail($id);
+        return view('articles.view', ['article' => $article]);
+    }
+
+    public function store(){
         $article = new Articles();
-        $article->setAttribute('name', 'tets');
-        $article->setAttribute('shorttext', 'shortdescription');
-        $article->setAttribute('dataCreate', '20.10.2021');
-        return $article->save();
+        $article->name = request('name');
+        $article->short_text = request('description');
+        $article->data_create = request('date');
+        $article->save();
+        return redirect('articles');
 
     }
 
