@@ -23,11 +23,14 @@
                         <a class="nav-link" href="/articles">Статьи</a>
                         <a class="nav-link" href="/about">О нас</a>
                     </div>
+<<<<<<< HEAD
                     <div class="navbar-nav">
                         <a class="nav-link" href="/registration">Зарегитрироваться</a>
                         <a class="nav-link" href="/auth/signin">Войти</a>
                         <a class="nav-link" href="/signout">Выход</a>
                    </div>
+=======
+>>>>>>> changed views & routes & controllers (refactor from valentin)
                 </div>
             </div>
         </nav>

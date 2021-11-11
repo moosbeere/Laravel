@@ -18,16 +18,21 @@ use Illuminate\Support\Facades\Mail;
 |
 */
 
+
 Route::get('/', function () {
     $testMail = new App\Mail\TestMail('hello');
     Mail::send($testMail);
     // return view('main');+
 });
+<<<<<<< HEAD
 
+=======
+>>>>>>> changed views & routes & controllers (refactor from valentin)
 Route::get('/articles', [ArticleController::class,'index']);
 Route::get('/articles/create', [ArticleController::class,'create']);
 Route::get('/articles/{id}', [ArticleController::class,'view']);
 Route::post('/articles', [ArticleController::class, 'store']);
+<<<<<<< HEAD
 Route::post('/article-comments', [ArticleCommentController::class, 'store']);
 
 
@@ -36,6 +41,8 @@ Route::get('/auth/signin', [AuthController::class, 'login']);
 Route::get('/signout', [AuthController::class, 'signout']);
 Route::post('/auth/registration', [AuthController::class, 'registration']);
 Route::post('/auth/signin', [AuthController::class, 'customLogin']);
+=======
+>>>>>>> changed views & routes & controllers (refactor from valentin)
 
 Route::get('/about', function () {
     $contact=[
@@ -45,4 +52,8 @@ Route::get('/about', function () {
     ];
 
     return view('about',['contact' => $contact]);
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> changed views & routes & controllers (refactor from valentin)

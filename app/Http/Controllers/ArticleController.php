@@ -10,7 +10,11 @@ use App\Models\ArticleComment;
 class ArticleController extends Controller
 {
     public function index(){
+<<<<<<< HEAD
         $aricles = Articles::paginate(3);
+=======
+        $aricles = Articles::all();
+>>>>>>> changed views & routes & controllers (refactor from valentin)
 
         return view('articles.index',['articles'=> $aricles]);
     }
@@ -31,9 +35,15 @@ class ArticleController extends Controller
 
     public function view($id){
         $article = Articles::findOrFail($id);
+<<<<<<< HEAD
         $comments = ArticleComment::where('article_id', $id)->paginate(3);
 
         return view('articles.view',['article'=>$article, 'comments'=>$comments]);
     }
 }
+=======
+>>>>>>> changed views & routes & controllers (refactor from valentin)
 
+        return view('articles.view',['article'=>$article]);
+    }
+}
