@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 @section('content')
 
-    <form method="post"> 
+    <form method="post" action="/articles"> 
         @csrf
 
         <h1>Новости</h1>

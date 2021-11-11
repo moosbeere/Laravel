@@ -2,15 +2,8 @@
 @section('content')
 
     <div>
-        <p>{{ session('msg') }}</p>
+        <p>Главная страница</p>
     </div>
-
-    @foreach($letters as $article)
-        <div>
-            <p>{{ $article->name }} - {{ $article->shorttext }} - {{ $article->dataCreate }}</p>
-        </div>
-    @endforeach
-
-
+    
 @endsection
 
