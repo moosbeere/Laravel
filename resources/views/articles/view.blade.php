@@ -4,6 +4,7 @@
     <i>{{$article->data_create}}</i>
     <p>{{$article->short_text}}</p>
     <br/>
+<<<<<<< HEAD
     @foreach($comments as $comment)
         <b>{{$comment->title}}</b>
         <p>{{$comment->comment}}</p>
@@ -15,6 +16,17 @@
         <form method="POST" action="/article-comments">
             @csrf
             <input type="hidden" name="article_id" value="{{$article->id}}"/>
+=======
+    @foreach($article->comments as $comment)
+        <b>{{ $comment->title }}</b>
+        <p>{{ $comment->comment }}</p>
+    @endforeach
+
+
+<form method="POST" action="/articles/{{$article->id}}/comment">
+            @csrf
+            <!-- <input type="hidden" name="article_id" value="{{$article->id}}"/> -->
+>>>>>>> comment: controller
 
             <div class="mb-3">
                 <label class="form-label">Заголовок комментария</label>
@@ -27,6 +39,11 @@
             <button class="btn btn-primary">Отправить</button>
         </form>
     </div>
+<<<<<<< HEAD
 @endsection
 @endsection
 
+=======
+
+@endsection
+>>>>>>> comment: controller

@@ -2,9 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+<<<<<<< HEAD
 use App\Http\Controllers\ArticleCommentController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
+=======
+use App\Http\Controllers\ArticleCommentsController;
+>>>>>>> comment: controller
 
 
 /*
@@ -33,6 +37,7 @@ Route::get('/articles/create', [ArticleController::class,'create']);
 Route::get('/articles/{id}', [ArticleController::class,'view']);
 Route::post('/articles', [ArticleController::class, 'store']);
 <<<<<<< HEAD
+<<<<<<< HEAD
 Route::post('/article-comments', [ArticleCommentController::class, 'store']);
 
 
@@ -43,6 +48,25 @@ Route::post('/auth/registration', [AuthController::class, 'registration']);
 Route::post('/auth/signin', [AuthController::class, 'customLogin']);
 =======
 >>>>>>> changed views & routes & controllers (refactor from valentin)
+=======
+Route::post('articles/{id}/comment', [ArticleCommentsController::class, 'store']);
+
+// Route::post('articles/{id}/comment', function ($id){
+//     $article = App\Models\Articles::find($id);
+//     if ($article){
+//         $comment_title = request('comment_title');
+//         $comment = request('comment');
+//         if ($comment && $comment_title){
+//             $new_comment = new App\Models\ArticleComment();
+//             $new_comment->title = $comment_title;
+//             $new_comment->comment = $comment;
+//             $new_comment->article()->associate($article);
+//             $new_comment->save();
+//             return redirect('articles/'.$id);
+//         }
+//     }
+// });
+>>>>>>> comment: controller
 
 Route::get('/about', function () {
     $contact=[
