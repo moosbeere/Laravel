@@ -9,6 +9,7 @@ class ArticleComment extends Model
 {
     use HasFactory;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
     public function article(){
@@ -16,4 +17,10 @@ class ArticleComment extends Model
     }
 =======
 >>>>>>> comments new model, controller, migrate
+=======
+    public function article(){
+        return $this->belongsTo(Articles::class);
+    }
+
+>>>>>>> comment:migrate, relationship
 }
