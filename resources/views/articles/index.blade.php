@@ -11,7 +11,14 @@
             </div>
         </div>
     </div>
+<<<<<<< HEAD
     <br>
     {{ $articles->links() }}
 @endsection
 @endsection
+=======
+
+    <br>
+    {{ $articles->links()}}
+@endsection
+>>>>>>> paginate

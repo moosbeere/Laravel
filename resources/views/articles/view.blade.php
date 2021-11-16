@@ -5,6 +5,7 @@
     <p>{{$article->short_text}}</p>
     <br/>
 <<<<<<< HEAD
+<<<<<<< HEAD
     @foreach($comments as $comment)
         <b>{{$comment->title}}</b>
         <p>{{$comment->comment}}</p>
@@ -18,9 +19,15 @@
             <input type="hidden" name="article_id" value="{{$article->id}}"/>
 =======
     @foreach($article->comments as $comment)
+=======
+    @foreach($comments as $comment)
+>>>>>>> paginate
         <b>{{ $comment->title }}</b>
         <p>{{ $comment->comment }}</p>
     @endforeach
+
+<br>
+{{ $comments->links()}}
 
 
 <form method="POST" action="/articles/{{$article->id}}/comment">
