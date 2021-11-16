@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ArticleCommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,9 +20,10 @@ Route::get('/', function(){
 
 Route::get('/articles', [ArticleController::class,'index']);
 Route::get('/about', [ArticleController::class,'contact']);
-
-Route::get('/articles/{id}', [ArticleController::class, 'show']);
 Route::get('/articles/create', [ArticleController::class, 'create']);
+Route::get('/articles/{id}', [ArticleController::class, 'show']);
+
+Route::post('/articles/{id}/comments', [ArticleCommentController::class, 'store']);
 
 
 Route::post('/articles', [ArticleController::class, 'store']);
