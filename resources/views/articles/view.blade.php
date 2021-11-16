@@ -4,10 +4,13 @@
     <i>{{$article->data_create}}</i>
     <p>{{$article->short_text}}</p>
     <br/>
-    @foreach($article->comments as $comment)
+    @foreach($comments as $comment)
         <b>{{ $comment->title }}</b>
         <p>{{ $comment->comment }}</p>
     @endforeach
+
+<br>
+{{ $comments->links()}}
 
 
 <form method="POST" action="/articles/{{$article->id}}/comment">

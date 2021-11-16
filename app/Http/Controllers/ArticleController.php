@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Articles;
+use App\Models\ArticleComment;
 
 class ArticleController extends Controller
 {
     public function index(){
-        $aricles = Articles::all();
+        $articles = Articles::paginate(2);
 
-        return view('articles.index',['articles'=> $aricles]);
+        return view('articles.index',['articles'=> $articles]);
     }
 
     public function create(){
@@ -29,7 +31,7 @@ class ArticleController extends Controller
 
     public function view($id){
         $article = Articles::findOrFail($id);
-
-        return view('articles.view',['article'=>$article]);
+        $comment = ArticleComment::where('article_id', $id)->paginate(2);
+        return view('articles.view',['article'=>$article, 'comments'=>$comment]);
     }
 }
