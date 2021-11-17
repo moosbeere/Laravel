@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ArticleCommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,32 +23,8 @@ Route::get('/articles/create', [ArticleController::class,'create']);
 Route::get('/articles/{id}', [ArticleController::class,'view']);
 Route::post('/articles', [ArticleController::class, 'store']);
 
-Route::post('/article-comments', function (\Illuminate\Http\Request $request){
-   $article_id = $request->input('article_id');
+Route::post('/article-comments', [ArticleCommentController::class, 'store']);
 
-   if($article_id){
-       $article = \App\Models\Articles::find($article_id);
-       if($article){
-           $comment_title = $request->input('comment_title');
-           $comment = $request->input('comment');
-           if($comment && $comment_title){
-               $new_comment = new \App\Models\ArticleComment();
-               $new_comment->title = $comment_title;
-               $new_comment->comment = $comment;
-               $new_comment->article()->associate($article);
-               $new_comment->save();
-
-               return redirect('/articles/'.$article->id);
-           }else{
-               return ;
-           }
-       }else{
-           return ;
-       }
-   }else{
-       return ;
-   }
-});
 
 Route::get('/about', function () {
     $contact=[
