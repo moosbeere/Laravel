@@ -5,10 +5,12 @@
     <p>{{ $article -> short_text}}</p>
     <br/>
     <br/>
-    @foreach($article->comments as $comment)
+    @foreach($comments as $comment)
         <b>{{ $comment->title }}</b>
         <p>{{ $comment->comment }}</p>
     @endforeach
+    <br>
+    <div> {{ $comments->links() }}</div>
 
     <form action="/articles/{{ $article->id }}/comments" method="post">
         @csrf

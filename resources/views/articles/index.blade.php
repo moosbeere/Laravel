@@ -11,4 +11,7 @@
             </div>
         </div>
     </div>
+<br>
+<br>
+    {{ $articles->links() }}
 @endsection
