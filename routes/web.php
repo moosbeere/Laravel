@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleCommentController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,3 +24,9 @@ Route::get('/articles/create', [ArticleController::class, 'create']);
 Route::get('/articles/{id}', [ArticleController::class, 'show']);
 Route::post('/articles/{id}/comment', [ArticleCommentController::class, 'store']);
 Route::post('/articles', [ArticleController::class, 'store']);
+
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::get('/registration', [AuthController::class, 'registration']);
+Route::get('/signout', [AuthController::class, 'signOut']);
+Route::post('/custom-registration', [AuthController::class, 'customRegistration']);
+Route::post('/custom-login', [AuthController::class, 'customLogin']);
