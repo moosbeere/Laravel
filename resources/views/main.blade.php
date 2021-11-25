@@ -4,6 +4,7 @@
     <div>
         <p>Главная страница</p>
     </div>
+
     
 @endsection
 
