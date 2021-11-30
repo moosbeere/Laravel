@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleCommentController;
+use App\Http\Controllers\AuthController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +24,14 @@ Route::get('/articles', [ArticleController::class,'index']);
 Route::get('/articles/create', [ArticleController::class,'create']);
 Route::get('/articles/{id}', [ArticleController::class,'view']);
 Route::post('/articles', [ArticleController::class, 'store']);
-
 Route::post('/article-comments', [ArticleCommentController::class, 'store']);
 
+
+Route::get('/registration', [AuthController::class, 'index']);
+Route::get('/auth/signin', [AuthController::class, 'login']);
+Route::get('/signout', [AuthController::class, 'signout']);
+Route::post('/auth/registration', [AuthController::class, 'registration']);
+Route::post('/auth/signin', [AuthController::class, 'customLogin']);
 
 Route::get('/about', function () {
     $contact=[
