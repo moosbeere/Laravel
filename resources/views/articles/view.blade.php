@@ -6,6 +6,7 @@
     <br/>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     @foreach($comments as $comment)
         <b>{{$comment->title}}</b>
         <p>{{$comment->comment}}</p>
@@ -22,6 +23,9 @@
 =======
     @foreach($comments as $comment)
 >>>>>>> paginate
+=======
+    @foreach($comments as $comment)
+>>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209
         <b>{{ $comment->title }}</b>
         <p>{{ $comment->comment }}</p>
     @endforeach
@@ -33,7 +37,10 @@
 <form method="POST" action="/articles/{{$article->id}}/comment">
             @csrf
             <!-- <input type="hidden" name="article_id" value="{{$article->id}}"/> -->
+<<<<<<< HEAD
 >>>>>>> comment: controller
+=======
+>>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209
 
             <div class="mb-3">
                 <label class="form-label">Заголовок комментария</label>
@@ -47,6 +54,7 @@
         </form>
     </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 @endsection
 @endsection
 
@@ -54,3 +62,7 @@
 
 @endsection
 >>>>>>> comment: controller
+=======
+
+@endsection
+>>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209

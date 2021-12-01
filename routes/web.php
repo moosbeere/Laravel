@@ -3,12 +3,16 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Http\Controllers\ArticleCommentController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
 =======
 use App\Http\Controllers\ArticleCommentsController;
 >>>>>>> comment: controller
+=======
+use App\Http\Controllers\ArticleCommentsController;
+>>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209
 
 
 /*
@@ -81,6 +85,24 @@ Route::get('/about', function () {
     return view('about',['contact' => $contact]);
 <<<<<<< HEAD
 });
+<<<<<<< HEAD
 =======
 });
 >>>>>>> changed views & routes & controllers (refactor from valentin)
+=======
+Route::get('/articles', [ArticleController::class,'index']);
+Route::get('/articles/create', [ArticleController::class,'create']);
+Route::get('/articles/{id}', [ArticleController::class,'view']);
+Route::post('/articles', [ArticleController::class, 'store']);
+Route::post('articles/{id}/comment', [ArticleCommentsController::class, 'store']);
+
+Route::get('/about', function () {
+    $contact=[
+        'adres'=>'Большая семеновская',
+        'tel'=>'8(495)232-2323',
+        'email'=>'@mospolitech.ru'
+    ];
+
+    return view('about',['contact' => $contact]);
+});
+>>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209

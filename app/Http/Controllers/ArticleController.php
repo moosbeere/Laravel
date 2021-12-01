@@ -7,13 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\Articles;
 use App\Models\ArticleComment;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 =======
 >>>>>>> paginate
+=======
+>>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209
 
 class ArticleController extends Controller
 {
     public function index(){
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
         $aricles = Articles::paginate(3);
@@ -23,6 +27,9 @@ class ArticleController extends Controller
 =======
         $articles = Articles::paginate(2);
 >>>>>>> paginate
+=======
+        $articles = Articles::paginate(2);
+>>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209
 
         return view('articles.index',['articles'=> $articles]);
     }
@@ -45,6 +52,7 @@ class ArticleController extends Controller
         $article = Articles::findOrFail($id);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         $comments = ArticleComment::where('article_id', $id)->paginate(3);
 
         return view('articles.view',['article'=>$article, 'comments'=>$comments]);
@@ -58,5 +66,9 @@ class ArticleController extends Controller
         $comment = ArticleComment::where('article_id', $id)->paginate(2);
         return view('articles.view',['article'=>$article, 'comments'=>$comment]);
 >>>>>>> paginate
+=======
+        $comment = ArticleComment::where('article_id', $id)->paginate(2);
+        return view('articles.view',['article'=>$article, 'comments'=>$comment]);
+>>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209
     }
 }

@@ -17,6 +17,9 @@ class Articles extends Model
 
     public function comments(){
         return $this->hasMany(ArticleComment::class, 'article_id');
+<<<<<<< HEAD
 >>>>>>> comment:migrate, relationship
+=======
+>>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209
     }
 }
