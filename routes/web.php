@@ -2,17 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
-<<<<<<< HEAD
-<<<<<<< HEAD
 use App\Http\Controllers\ArticleCommentController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
-=======
 use App\Http\Controllers\ArticleCommentsController;
->>>>>>> comment: controller
-=======
-use App\Http\Controllers\ArticleCommentsController;
->>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209
 
 
 /*
@@ -28,20 +21,18 @@ use App\Http\Controllers\ArticleCommentsController;
 
 
 Route::get('/', function () {
-    $testMail = new App\Mail\TestMail('hello');
-    Mail::send($testMail);
-    // return view('main');+
+    // $testMail = new App\Mail\TestMail('hello');
+    // Mail::send($testMail);
+    return view('main');
 });
-<<<<<<< HEAD
 
-=======
->>>>>>> changed views & routes & controllers (refactor from valentin)
 Route::get('/articles', [ArticleController::class,'index']);
 Route::get('/articles/create', [ArticleController::class,'create']);
 Route::get('/articles/{id}', [ArticleController::class,'view']);
+Route::get('/articles/{id}/update', [ArticleController::class,'update']);
+Route::post('/articles/{id}/update', [ArticleController::class,'store']);
+Route::get('/articles/{id}/delete', [ArticleController::class,'destroy']);
 Route::post('/articles', [ArticleController::class, 'store']);
-<<<<<<< HEAD
-<<<<<<< HEAD
 Route::post('/article-comments', [ArticleCommentController::class, 'store']);
 
 
@@ -50,12 +41,8 @@ Route::get('/auth/signin', [AuthController::class, 'login']);
 Route::get('/signout', [AuthController::class, 'signout']);
 Route::post('/auth/registration', [AuthController::class, 'registration']);
 Route::post('/auth/signin', [AuthController::class, 'customLogin']);
-=======
->>>>>>> changed views & routes & controllers (refactor from valentin)
-=======
 Route::post('articles/{id}/comment', [ArticleCommentsController::class, 'store']);
 
-<<<<<<< HEAD
 // Route::post('articles/{id}/comment', function ($id){
 //     $article = App\Models\Articles::find($id);
 //     if ($article){
@@ -71,30 +58,6 @@ Route::post('articles/{id}/comment', [ArticleCommentsController::class, 'store']
 //         }
 //     }
 // });
->>>>>>> comment: controller
-
-=======
->>>>>>> change route
-Route::get('/about', function () {
-    $contact=[
-        'adres'=>'Большая семеновская',
-        'tel'=>'8(495)232-2323',
-        'email'=>'@mospolitech.ru'
-    ];
-
-    return view('about',['contact' => $contact]);
-<<<<<<< HEAD
-});
-<<<<<<< HEAD
-=======
-});
->>>>>>> changed views & routes & controllers (refactor from valentin)
-=======
-Route::get('/articles', [ArticleController::class,'index']);
-Route::get('/articles/create', [ArticleController::class,'create']);
-Route::get('/articles/{id}', [ArticleController::class,'view']);
-Route::post('/articles', [ArticleController::class, 'store']);
-Route::post('articles/{id}/comment', [ArticleCommentsController::class, 'store']);
 
 Route::get('/about', function () {
     $contact=[
@@ -105,4 +68,4 @@ Route::get('/about', function () {
 
     return view('about',['contact' => $contact]);
 });
->>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209
+?>

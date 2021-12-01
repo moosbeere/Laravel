@@ -11,21 +11,8 @@
             </div>
         </div>
     </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     <br>
     {{ $articles->links() }}
-@endsection
-@endsection
-=======
 
-    <br>
-    {{ $articles->links()}}
 @endsection
->>>>>>> paginate
-=======
-
-    <br>
-    {{ $articles->links()}}
-@endsection
->>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209

@@ -23,19 +23,16 @@
                         <a class="nav-link" href="/articles">Статьи</a>
                         <a class="nav-link" href="/about">О нас</a>
                     </div>
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    <div class="navbar-nav">
-                        <a class="nav-link" href="/registration">Зарегитрироваться</a>
-                        <a class="nav-link" href="/auth/signin">Войти</a>
-                        <a class="nav-link" href="/signout">Выход</a>
-                   </div>
-=======
->>>>>>> changed views & routes & controllers (refactor from valentin)
-=======
->>>>>>> 22d6e2089f0bf144673c74c60e7df25ca7471209
                 </div>
             </div>
+            <div class="navbar-nav d-flex justify-content-end">
+                        @if(Auth::guest())
+                            <a class="nav-link" href="/registration">Регистрация</a>
+                            <a class="nav-link" href="/login">Вход</a>
+                        @else
+                            <a class="nav-link" href="/logout">Выход</a>
+                        @endif
+                        </div>
         </nav>
         <div class="container">
             @yield('content')
