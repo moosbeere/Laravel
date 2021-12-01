@@ -51,6 +51,7 @@ Route::post('/auth/signin', [AuthController::class, 'customLogin']);
 =======
 Route::post('articles/{id}/comment', [ArticleCommentsController::class, 'store']);
 
+<<<<<<< HEAD
 // Route::post('articles/{id}/comment', function ($id){
 //     $article = App\Models\Articles::find($id);
 //     if ($article){
@@ -68,6 +69,8 @@ Route::post('articles/{id}/comment', [ArticleCommentsController::class, 'store']
 // });
 >>>>>>> comment: controller
 
+=======
+>>>>>>> change route
 Route::get('/about', function () {
     $contact=[
         'adres'=>'Большая семеновская',
