@@ -22,14 +22,16 @@
                         <a class="nav-link" href="/">Главная</a>
                         <a class="nav-link" href="/articles">Статьи</a>
                         <a class="nav-link" href="/about">О нас</a>
-                        @if(Auth::guest())
+                    </div>
+                </div>
+            </div>
+            <div class="navbar-nav d-flex justify-content-end">
+            @if(Auth::guest())
                             <a class="nav-link" href="/registration">Регистрация</a>
                             <a class="nav-link" href="/login">Вход</a>
                         @else
                             <a class="nav-link" href="/logout">Выход</a>
                         @endif
-                    </div>
-                </div>
             </div>
         </nav>
         <div class="container">

@@ -23,6 +23,11 @@ Route::get('/articles', [ArticleController::class,'index']);
 Route::get('/about', [ArticleController::class,'contact']);
 Route::get('/articles/create', [ArticleController::class, 'create']);
 Route::get('/articles/{id}', [ArticleController::class, 'show']);
+Route::get('/articles/{id}/edit', [ArticleController::class, 'update']);
+Route::get('/articles/{id}/delete', [ArticleController::class, 'destroy']);
+Route::post('/articles/{id}/edit', [ArticleController::class, 'store']);
+
+
 Route::post('/articles/{id}/comments', [ArticleCommentController::class, 'store']);
 Route::post('/articles', [ArticleController::class, 'store']);
 
