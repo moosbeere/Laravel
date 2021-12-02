@@ -19,7 +19,13 @@ class ArticleController extends Controller
         return view('articles.create');
     }
 
-    public function store($id=null){
+    public function store($id=null, Request $request){
+       
+        $request->validate([
+            'name' => 'required',
+            'date' => 'required'
+        ]);
+
         if ($id == null) $article = new Articles();
         else $article = Articles::findOrFail($id);
         $article->name = request('name');
@@ -44,7 +50,7 @@ class ArticleController extends Controller
     }
 
     public function destroy($id){
-        DB::table('articles')->where('id', '=', $id)->delete();
+        Articles::findOrFail($id)->delete();
         return redirect ('/articles');
     }
 }
