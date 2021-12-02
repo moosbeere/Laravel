@@ -18,9 +18,9 @@ use Illuminate\Support\Facades\Mail;
 */
 
 Route::get('/', function () {
-    $mail = new App\Mail\TestMail('Hello');
-    Mail::send($mail);
-    // return view('main');
+    // $mail = new App\Mail\TestMail('Hello');
+    // Mail::send($mail);
+    return view('main');
 });
 Route::get('/articles', [ArticleController::class, 'index']);
 Route::get('/articles/create', [ArticleController::class, 'create']);

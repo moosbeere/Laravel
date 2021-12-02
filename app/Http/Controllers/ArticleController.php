@@ -30,8 +30,7 @@ class ArticleController extends Controller
             $article->short_text = request('description');
             $article->data_create = request('date');
             $article->save();
-        if ($id == null )return redirect('/articles');
-        else return redirect('/articles/'.$id);
+        return redirect('/articles/'.$article->id);
     }
 
     public function update($id){
