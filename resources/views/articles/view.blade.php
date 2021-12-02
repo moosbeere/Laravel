@@ -14,6 +14,10 @@
     <br>
     {{ $comments -> links() }}
 
+    <a href="/articles/{{$article->id}}/edit" class="btn">Редактировать</a>
+    <a href="/articles/{{$article->id}}/delete" class="btn">Удалить</a>
+
+
     <form action="/articles/{{ $article->id }}/comment" method="post">
         @csrf
         <h3>Оставить комментарий</h3>

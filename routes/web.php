@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\ArticleCommentController;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,17 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-    return view('main');
+    $mail = new App\Mail\TestMail('Hello');
+    Mail::send($mail);
+    // return view('main');
 });
 Route::get('/articles', [ArticleController::class, 'index']);
 Route::get('/articles/create', [ArticleController::class, 'create']);
 Route::get('/articles/{id}', [ArticleController::class, 'show']);
+Route::get('/articles/{id}/edit', [ArticleController::class, 'update']);
+Route::post('/articles/{id}/edit', [ArticleController::class, 'store']);
+Route::get('/articles/{id}/delete', [ArticleController::class, 'delete']);
+
 Route::post('/articles/{id}/comment', [ArticleCommentController::class, 'store']);
 Route::post('/articles', [ArticleController::class, 'store']);
 

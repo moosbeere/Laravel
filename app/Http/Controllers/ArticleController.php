@@ -23,15 +23,25 @@ class ArticleController extends Controller
         return view('articles.view', ['article' => $article, 'comments'=>$comment]);
     }
 
-    public function store(){
-        $article = new Articles();
-        $article->name = request('name');
-        $article->short_text = request('description');
-        $article->data_create = request('date');
-        $article->save();
-        return redirect('articles');
-
+    public function store($id = null){
+        if ($id == null) $article = new Articles();
+        else $article = Articles::findOrFail($id);
+            $article->name = request('name');
+            $article->short_text = request('description');
+            $article->data_create = request('date');
+            $article->save();
+        if ($id == null )return redirect('/articles');
+        else return redirect('/articles/'.$id);
     }
 
+    public function update($id){
+        $article = Articles::findOrFail($id);
+        return view('articles.edit', ['article' => $article]);
+    }
+
+    public function delete($id){
+        Articles::findOrFail($id)->delete();
+        return redirect('/articles');
+    }
 }
 
