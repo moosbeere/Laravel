@@ -6,6 +6,7 @@ use App\Http\Controllers\ArticleCommentController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\ArticleCommentsController;
+use App\Models\User;
 
 
 /*
@@ -66,6 +67,6 @@ Route::get('/about', function () {
         'email'=>'@mospolitech.ru'
     ];
 
-    return view('about',['contact' => $contact]);
+    return view('about',['contact' => $contact,]);
 });
 ?>
