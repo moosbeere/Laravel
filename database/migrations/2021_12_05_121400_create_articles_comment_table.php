@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateArticleCommentsTable extends Migration
+class CreateArticlesCommentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateArticleCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('article_comments', function (Blueprint $table) {
+        Schema::create('articles_comment', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->text('title');
@@ -29,6 +29,6 @@ class CreateArticleCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('article_comments');
+        Schema::dropIfExists('articles_comment');
     }
 }
