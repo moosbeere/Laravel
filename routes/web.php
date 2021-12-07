@@ -31,8 +31,8 @@ Route::get('/articles', [ArticleController::class,'index']);
 Route::get('/articles/create', [ArticleController::class,'create']);
 Route::get('/articles/{id}', [ArticleController::class,'view']);
 Route::get('/articles/{id}/update', [ArticleController::class,'update']);
-Route::post('/articles/{id}/update', [ArticleController::class,'store']);
 Route::get('/articles/{id}/delete', [ArticleController::class,'destroy']);
+Route::post('/articles/{id}/update', [ArticleController::class,'store']);
 Route::post('/articles', [ArticleController::class, 'store']);
 Route::post('/article-comments', [ArticleCommentController::class, 'store']);
 
