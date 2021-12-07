@@ -31,7 +31,7 @@ class TestMail extends Mailable
     public function build()
     {
         return $this->from('test@polytech.ru')
-            ->to('...')
+            ->to('moosbeere_O@mail.ru')
             ->with([
                 'textString' => $this->textString,
             ])

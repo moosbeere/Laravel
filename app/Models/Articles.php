@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Articles extends Model
 {
-    // use HasFactory;
+    use HasFactory;
 
     public function comments(){
         return $this->hasMany(ArticleComment::class,'article_id');

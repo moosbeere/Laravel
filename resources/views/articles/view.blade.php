@@ -9,8 +9,12 @@
         <p>{{$comment->comment}}</p>
     @endforeach
     <br/>
+
     {{ $comments ->links() }}
     <br>
+    <a class="btn btn-pramery" href="/articles/{{$article->id}}/edit">Редактировать</a>
+    <a class="btn btn-primery" href="/articles/{{$article->id}}/delete">Удалить</a>
+
     <div class="col-sm-4">
         <form method="POST" action="/article-comments">
             @csrf
