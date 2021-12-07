@@ -12,9 +12,10 @@
     <br/>
     {{ $comments ->links() }}
     <br>
-
+    @canany('update-articles', 'delete-articles')
     <a class="btn btn-secondary" href="/articles/{{$article->id}}/update">Редактировать</a>
     <a class="btn btn-primary" href="/articles/{{$article->id}}/delete">Удалить</a>
+    @endcan
 
 
     <form method="POST" action="/articles/{{$article->id}}/comment">

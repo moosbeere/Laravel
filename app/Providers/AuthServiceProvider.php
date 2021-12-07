@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\Access\Response;
+use App\Models\User;
+use App\Models\Role;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,28 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('create-articles', function(User $user){
+            $role = Role::where('name', 'reader')->value('id');
+            if ($user->role_id == $role){
+                return Response::deny('нет прав!');
+            }
+            return Response::allow();
+        });
+
+        Gate::define('update-articles', function(User $user){
+            $role = Role::where('name', 'reader')->value('id');
+            if ($user->role_id == $role){
+                return Response::deny('нет прав!');
+            }
+            return Response::allow();
+        });
+        
+        Gate::define('delete-articles', function(User $user){
+            $role = Role::where('name', 'reader')->value('id');
+            if ($user->role_id == $role){
+                return Response::deny('нет прав!');
+            }
+            return Response::allow();
+        });
     }
 }

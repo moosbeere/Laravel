@@ -3,20 +3,28 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Models\Articles;
+use App\Models\Role;
 use App\Models\ArticleComment;
+
+
 
 
 class ArticleController extends Controller
 {
     public function index(){
         $articles = Articles::paginate(3);
-        return view('articles.index',['articles'=> $articles]);
+        $roles = Role::all();
+        return view('articles.index',['articles'=> $articles, 'roles' => $roles]);
     }
 
     public function create(){
-        return view('articles.create');
+        if(Gate::check('create-articles'))
+            return view('articles.create');
+        else 
+            return ('В доступе отказано');
     }
 
     public function store($id=null, Request $request){
@@ -45,11 +53,13 @@ class ArticleController extends Controller
     }
 
     public function update($id){
+        Gate::authorize('update-articles');
         $article = Articles::findOrFail($id);
         return view('articles.update', ['article'=>$article]);
     }
 
     public function destroy($id){
+        Gate::authorize('delete-articles');
         Articles::findOrFail($id)->delete();
         return redirect ('/articles');
     }

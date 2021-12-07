@@ -28,9 +28,9 @@
             <div class="navbar-nav d-flex justify-content-end">
                         @if(Auth::guest())
                             <a class="nav-link" href="/registration">Регистрация</a>
-                            <a class="nav-link" href="/login">Вход</a>
+                            <a class="nav-link" href="/auth/signin">Вход</a>
                         @else
-                            <a class="nav-link" href="/logout">Выход</a>
+                            <a class="nav-link" href="/signout">Выход</a>
                         @endif
                         </div>
         </nav>

@@ -7,7 +7,9 @@
                 @foreach($articles as $article)
                     <a href="/articles/{{$article->id}}" class="list-group-item list-group-item-action">{{$article->name}}</a>
                 @endforeach
+                @can('create-articles')
                 <a class="btn btn-primary" href="/articles/create">Добавить статью</a>
+                @endcan
             </div>
         </div>
     </div>
