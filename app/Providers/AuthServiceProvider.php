@@ -28,6 +28,12 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        Gate::before(function (User $user) {
+            if ($user->id  == 1) {
+                return true;
+            }
+        });
+
         Gate::define('create-articles', function(User $user){
             $role = Role::where('name', 'reader')->value('id');
             if ($user->role_id == $role){
