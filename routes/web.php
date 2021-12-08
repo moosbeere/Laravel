@@ -24,19 +24,23 @@ Route::get('/', function () {
     return view('main');
 });
 
-Route::get('/articles', [ArticleController::class,'index']);
-Route::get('/articles/create', [ArticleController::class,'create']);
-Route::get('/articles/{id}', [ArticleController::class,'view']);
-Route::get('/articles/{id}/edit', [ArticleController::class,'update']);
-Route::get('/articles/{id}/delete', [ArticleController::class,'destroy']);
+Route::group(['prefix' => '/articles','middleware' => 'auth'], function(){
+    Route::get('', [ArticleController::class,'index']);
+    Route::get('/create', [ArticleController::class,'create']);
+    Route::get('/{id}', [ArticleController::class,'view']);
+    Route::get('/{id}/edit', [ArticleController::class,'update']);
+    Route::get('/{id}/delete', [ArticleController::class,'destroy']);
 
-Route::post('/articles/{id}/edit', [ArticleController::class,'store']);
-Route::post('/articles', [ArticleController::class, 'store']);
+    Route::post('/{id}/edit', [ArticleController::class,'store']);
+    Route::post('', [ArticleController::class, 'store']);
+});
+
+
 Route::post('/article-comments', [ArticleCommentController::class, 'store']);
 
 
 Route::get('/registration', [AuthController::class, 'index']);
-Route::get('/auth/signin', [AuthController::class, 'login']);
+Route::get('/auth/signin', [AuthController::class, 'login'])->name('login');
 Route::get('/signout', [AuthController::class, 'signout']);
 Route::post('/auth/registration', [AuthController::class, 'registration']);
 Route::post('/auth/signin', [AuthController::class, 'customLogin']);

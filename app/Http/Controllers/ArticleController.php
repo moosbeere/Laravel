@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Articles;
 use App\Models\ArticleComment;
+use Illuminate\Support\Facades\Gate;
 
 
 class ArticleController extends Controller
@@ -16,6 +17,7 @@ class ArticleController extends Controller
     }
 
     public function create(){
+        Gate::authorize('create-article');
         return view('articles.create');
     }
 
@@ -39,11 +41,15 @@ class ArticleController extends Controller
     }
 
     public function update($id){
+        Gate::authorize('update-article');
+
         $article = Articles::findOrFail($id);
         return view('articles.edit', ['article' => $article]);
     }
 
     public function destroy($id){
+        Gate::authorize('delete-article');
+
         Articles::findOrFail($id)->delete();
         return redirect('/articles');
     }

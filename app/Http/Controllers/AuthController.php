@@ -50,6 +50,6 @@ class AuthController extends Controller
 
     public function signOut(){
         Auth::logout();
-        return redirect('auth.signin');
+        return redirect('auth/signin');
     }
 }

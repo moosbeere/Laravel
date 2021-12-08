@@ -15,10 +15,10 @@ class CreateArticleCommentsTable extends Migration
     {
         Schema::create('article_comments', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table->text('title');
+             $table->text('title');
             $table->text('comment');
             $table->foreignId('article_id');
+            $table->timestamps();
         });
     }
 
@@ -32,3 +32,6 @@ class CreateArticleCommentsTable extends Migration
         Schema::dropIfExists('article_comments');
     }
 }
+
+
+
