@@ -18,19 +18,18 @@ use App\Http\Controllers\AuthController;
 Route::get('/', function(){
     return view('main');
 });
+Route::group(['prefix'=>'/articles', 'middleware'=>'auth'], function(){
+    Route::get('', [ArticleController::class,'index']);
+    Route::get('/create', [ArticleController::class, 'create']);
+    Route::get('/{id}', [ArticleController::class, 'show']);
+    Route::get('/{id}/edit', [ArticleController::class, 'update']);
+    Route::get('/{id}/delete', [ArticleController::class, 'destroy']);
+    Route::post('/{id}/edit', [ArticleController::class, 'store']);
+    Route::post('/{id}/comments', [ArticleCommentController::class, 'store']);
+    Route::post('', [ArticleController::class, 'store']);
+});
 
-Route::get('/articles', [ArticleController::class,'index']);
 Route::get('/about', [ArticleController::class,'contact']);
-Route::get('/articles/create', [ArticleController::class, 'create']);
-Route::get('/articles/{id}', [ArticleController::class, 'show']);
-Route::get('/articles/{id}/edit', [ArticleController::class, 'update']);
-Route::get('/articles/{id}/delete', [ArticleController::class, 'destroy']);
-Route::post('/articles/{id}/edit', [ArticleController::class, 'store']);
-
-
-Route::post('/articles/{id}/comments', [ArticleCommentController::class, 'store']);
-Route::post('/articles', [ArticleController::class, 'store']);
-
 Route::get('/registration', [AuthController::class, 'index']);
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/logout', [AuthController::class, 'signOut']);
