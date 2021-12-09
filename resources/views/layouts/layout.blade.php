@@ -30,7 +30,7 @@
                             <a class="nav-link" href="/registration">Регистрация</a>
                             <a class="nav-link" href="/login">Вход</a>
                         @else
-                            <a class="nav-link" href="/logout">Выход</a>
+                            <a class="nav-link" href="/signout">Выход</a>
                         @endif
                         </div>
         </nav>

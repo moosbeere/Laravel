@@ -22,15 +22,18 @@ Route::get('/', function () {
     // Mail::send($mail);
     return view('main');
 });
-Route::get('/articles', [ArticleController::class, 'index']);
-Route::get('/articles/create', [ArticleController::class, 'create']);
-Route::get('/articles/{id}', [ArticleController::class, 'show']);
-Route::get('/articles/{id}/edit', [ArticleController::class, 'update']);
-Route::post('/articles/{id}/edit', [ArticleController::class, 'store']);
-Route::get('/articles/{id}/delete', [ArticleController::class, 'delete']);
 
-Route::post('/articles/{id}/comment', [ArticleCommentController::class, 'store']);
-Route::post('/articles', [ArticleController::class, 'store']);
+Route::group(['prefix'=>'/articles', 'middleware'=>'auth'], function(){
+    Route::get('', [ArticleController::class, 'index']);
+    Route::get('/create', [ArticleController::class, 'create']);
+    Route::get('/{id}', [ArticleController::class, 'show']);
+    Route::get('/{id}/edit', [ArticleController::class, 'update']);
+    Route::post('/{id}/edit', [ArticleController::class, 'store']);
+    Route::get('/{id}/delete', [ArticleController::class, 'delete']);
+    Route::post('/{id}/comment', [ArticleCommentController::class, 'store']);
+    Route::post('', [ArticleController::class, 'store']);
+});
+
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::get('/registration', [AuthController::class, 'registration']);
