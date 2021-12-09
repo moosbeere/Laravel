@@ -52,7 +52,7 @@ class ArticleController extends Controller
         return view('articles.view',['article'=>$article, 'comments'=>$comments]);
     }
 
-    public function update($id){
+    public function edit($id){
         Gate::authorize('update-articles');
         $article = Articles::findOrFail($id);
         return view('articles.update', ['article'=>$article]);
