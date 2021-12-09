@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Role;
+use App\Models\User;
+use Illuminate\Auth\Access\Response;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,32 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::before(function(User $user){
+            $role = Role::where('name', 'moderator')->value('id');
+            if($user->role_id == $role){
+                return true;
+            }
+        });
+
+        // Gate::define('create-article', function(?User $user){
+        //     $role = Role::where('name', 'reader')->value('id');
+        //     if($user->role_id == $role){
+        //         return Response::deny('В доступе отказано!');
+        //     } return Response::allow();
+        // });
+
+        Gate::define('update-article', function(?User $user){
+            $role = Role::where('name', 'reader')->value('id');
+            if($user->role_id == $role){
+                return Response::deny('В доступе отказано!');
+            } return Response::allow();
+        });
+
+        Gate::define('delete-article', function(?User $user){
+            $role = Role::where('name', 'reader')->value('id');
+            if($user->role_id == $role){
+                return Response::deny('В доступе отказано!');
+            } return Response::allow();
+        });
     }
 }

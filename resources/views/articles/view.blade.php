@@ -13,9 +13,11 @@
     </div>
     <br>
     {{ $comments -> links() }}
-
+    <br>
+    @canany('update-article', 'delete-article')
     <a href="/articles/{{$article->id}}/edit" class="btn">Редактировать</a>
     <a href="/articles/{{$article->id}}/delete" class="btn">Удалить</a>
+    @endcan
 
 
     <form action="/articles/{{ $article->id }}/comment" method="post">
