@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\ArticleCommentController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\ArticleCommentsController;
@@ -28,16 +27,18 @@ Route::get('/', function () {
 });
 Route::group(['prefix' => '/articles', 'middleware' => 'auth'], function () {
     Route::get('', [ArticleController::class,'index']);
-    Route::get('/create', [ArticleController::class,'create']);
+    Route::get('/create', [ArticleController::class,'create'])->name('create');
     Route::get('/{id}', [ArticleController::class,'view']);
-    Route::get('/{id}/update', [ArticleController::class,'update']);
+    Route::get('/{id}/update', [ArticleController::class,'edit']);
     Route::get('/{id}/delete', [ArticleController::class,'destroy']);
     Route::post('/{id}/update', [ArticleController::class,'store']);
     Route::post('', [ArticleController::class, 'store']);
   });
 
-
-Route::post('/article-comments', [ArticleCommentController::class, 'store']);
+Route::group(['prefix'=>'comment'], function(){
+    Route::get('',[ArticleCommentsController::class, 'index']);
+});
+Route::post('/article-comments', [ArticleCommentsController::class, 'store']);
 
 
 Route::get('/registration', [AuthController::class, 'index']);

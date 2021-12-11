@@ -1,4 +1,8 @@
 @extends('layouts.layout')
+@section('link')
+    <a class="nav-link active" href="/articles/{{$article->id}}/update">Редактировать</a>
+    <a class="nav-link active" href="/articles/{{$article->id}}/delete">Удалить</a>
+@endsection
 @section('content')
     <h3>{{$article->name}}</h3>
     <i>{{$article->data_create}}</i>
@@ -12,12 +16,7 @@
     <br/>
     {{ $comments ->links() }}
     <br>
-    @canany('update-articles', 'delete-articles')
-    <a class="btn btn-secondary" href="/articles/{{$article->id}}/update">Редактировать</a>
-    <a class="btn btn-primary" href="/articles/{{$article->id}}/delete">Удалить</a>
-    @endcan
-
-
+   
     <form method="POST" action="/articles/{{$article->id}}/comment">
             @csrf
             <!-- <input type="hidden" name="article_id" value="{{$article->id}}"/> -->

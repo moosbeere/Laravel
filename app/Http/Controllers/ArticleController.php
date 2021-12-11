@@ -59,8 +59,9 @@ class ArticleController extends Controller
     }
 
     public function destroy($id){
-        Gate::authorize('delete-articles');
-        Articles::findOrFail($id)->delete();
+        $article = Articles::findOrFail($id);
+        ArticleComment::where('article_id', $article->id)->delete();
+        $article->delete();
         return redirect ('/articles');
     }
 }

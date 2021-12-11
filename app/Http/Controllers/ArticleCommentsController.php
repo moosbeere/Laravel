@@ -8,6 +8,13 @@ use App\Models\ArticleComment;
 
 class ArticleCommentsController extends Controller
 {
+    public function index(){
+        $comment = ArticleComment::all();
+        foreach($comment as $one_comment){
+            $article = Articles::find($one_comment->article_id);
+        }
+        return view('comment.index', ['comment' => $comment, 'article' => $article]);
+    }
     public function store($id){
         $article = Articles::find($id);
         if ($article){

@@ -11,7 +11,8 @@
         <div>
             <textarea name="description" id="description" cols="30" rows="10">{{$article->short_text}}</textarea>
         </div>
-
+        <a href="/articles/{{$article->id}}">Отменить</a>
+        <a href="/articles/{{$article->id}}/delete">Удалить статью</a>
         <button type="submit">Сохранить</button>
     </form>
 

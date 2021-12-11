@@ -13,26 +13,33 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
+                <a class="navbar-brand" href="#">BLOG</a>
+            <div class="container">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link" href="/">Главная</a>
-                        <a class="nav-link" href="/articles">Статьи</a>
-                        <a class="nav-link" href="/about">О нас</a>
+                        <a class="nav-link @linkactive('/')" href="/" >Главная</a>
+                        <a class="nav-link @linkactive('articles')" href="/articles">Статьи</a>
+                    @can('moderator')
+                        <a class="nav-link @linkactive('articles/create')" href="/articles/create">Создать</a>
+                    @yield('link')
+                        <a class="nav-link @linkactive('comment')" href="/comment">Комментарии</a>
+                        <a class="nav-link @linkactive('reader')" href="/reader">Читатели</a>
+                    @endcan
                     </div>
                 </div>
-            </div>
-            <div class="navbar-nav d-flex justify-content-end">
+                </div>
+                <div class="navbar-nav">
                         @if(Auth::guest())
                             <a class="nav-link" href="/registration">Регистрация</a>
-                            <a class="nav-link" href="/auth/signin">Вход</a>
+                            <a class="nav-link active" href="/auth/signin">Вход</a>
                         @else
-                            <a class="nav-link" href="/signout">Выход</a>
+                            <a class="nav-link active" href="/signout">Выход</a>
                         @endif
-                        </div>
+                </div>
+            </div>
         </nav>
         <div class="container">
             @yield('content')
