@@ -16,8 +16,12 @@
     <br/>
     {{ $comments ->links() }}
     <br>
-   
-    <form method="POST" action="/articles/{{$article->id}}/comment">
+    @isset($_GET['result'])
+        @if($_GET['result'] == 1)
+            <span>Ваш комментарий отправлен на модерацию.</span>
+        @endif
+    @endisset
+    <form method="POST" action="/comment/{{$article->id}}/create">
             @csrf
             <!-- <input type="hidden" name="article_id" value="{{$article->id}}"/> -->
 
@@ -29,8 +33,10 @@
                 <label class="form-label">Комментарий</label>
                 <textarea class="form-control" name="comment" rows="3" required></textarea>
             </div>
-            <button class="btn btn-primary">Отправить</button>
+            <button class="btn btn-primary">Добавить</button>
         </form>
     </div>
+
+    
 @endsection
 

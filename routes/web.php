@@ -28,7 +28,7 @@ Route::get('/', function () {
 Route::group(['prefix' => '/articles', 'middleware' => 'auth'], function () {
     Route::get('', [ArticleController::class,'index']);
     Route::get('/create', [ArticleController::class,'create'])->name('create');
-    Route::get('/{id}', [ArticleController::class,'view']);
+    Route::get('/{id}', [ArticleController::class,'view'])->name('view');
     Route::get('/{id}/update', [ArticleController::class,'edit']);
     Route::get('/{id}/delete', [ArticleController::class,'destroy']);
     Route::post('/{id}/update', [ArticleController::class,'store']);
@@ -36,9 +36,11 @@ Route::group(['prefix' => '/articles', 'middleware' => 'auth'], function () {
   });
 
 Route::group(['prefix'=>'comment'], function(){
-    Route::get('',[ArticleCommentsController::class, 'index']);
+    Route::get('',[ArticleCommentsController::class, 'index'])->name('index');
+    Route::get('/{id}/accept', [ArticleCommentsController::class, 'accept']);
+    Route::get('/{id}/reject', [ArticleCommentsController::class, 'destroy']);
+    Route::post('/{id}/create', [ArticleCommentsController::class, 'store']);
 });
-Route::post('/article-comments', [ArticleCommentsController::class, 'store']);
 
 
 Route::get('/registration', [AuthController::class, 'index']);
@@ -48,21 +50,7 @@ Route::post('/auth/registration', [AuthController::class, 'registration']);
 Route::post('/auth/signin', [AuthController::class, 'customLogin']);
 Route::post('articles/{id}/comment', [ArticleCommentsController::class, 'store']);
 
-// Route::post('articles/{id}/comment', function ($id){
-//     $article = App\Models\Articles::find($id);
-//     if ($article){
-//         $comment_title = request('comment_title');
-//         $comment = request('comment');
-//         if ($comment && $comment_title){
-//             $new_comment = new App\Models\ArticleComment();
-//             $new_comment->title = $comment_title;
-//             $new_comment->comment = $comment;
-//             $new_comment->article()->associate($article);
-//             $new_comment->save();
-//             return redirect('articles/'.$id);
-//         }
-//     }
-// });
+
 
 Route::get('/about', function () {
     $contact=[
