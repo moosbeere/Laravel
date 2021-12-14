@@ -7,6 +7,7 @@ use App\Models\Articles;
 use App\Models\ArticleComment;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
+use App\Jobs\VeryLongJob;
 
 class ArticleCommentsController extends Controller
 {
@@ -41,8 +42,7 @@ class ArticleCommentsController extends Controller
                 $new_comment->comment = $comment;
                 $new_comment->article()->associate($article);
                 $result = $new_comment->save();
-                $testMail = new TestMail('Для статьи с названием "'.$article->name.'"создан новый комментарий. Новые комментарии требуют модерации');
-                Mail::send($testMail);
+                VeryLongJob::dispatch($article->name);
                 return redirect()->route('view', ['id' => $article->id, 'result' => $result]);                
             }
         }
