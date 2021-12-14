@@ -21,12 +21,23 @@
                     <div class="navbar-nav">
                         <a class="nav-link" href="/">Главная</a>
                         <a class="nav-link" href="/articles">Статьи</a>
+                        @can('moderator')
+                            <a class="nav-link" href="/articles/create">Создать</a>
+                            @yield('comment')
+                            <a class="nav-link" href="/comment">Комментарии</a>
+                        @endcan
                         <a class="nav-link" href="/about">О нас</a>
+
+
+                        
                     </div>
                     <div class="navbar-nav">
+                    @if (Auth::guest())
                         <a class="nav-link" href="/registration">Зарегитрироваться</a>
                         <a class="nav-link" href="/auth/signin">Войти</a>
+                    @else
                         <a class="nav-link" href="/signout">Выход</a>
+                    @endif
                    </div>
                 </div>
             </div>

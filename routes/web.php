@@ -27,7 +27,7 @@ Route::get('/', function () {
 Route::group(['prefix' => '/articles','middleware' => 'auth'], function(){
     Route::get('', [ArticleController::class,'index']);
     Route::get('/create', [ArticleController::class,'create']);
-    Route::get('/{id}', [ArticleController::class,'view']);
+    Route::get('/{id}', [ArticleController::class,'view'])->name('view');
     Route::get('/{id}/edit', [ArticleController::class,'update']);
     Route::get('/{id}/delete', [ArticleController::class,'destroy']);
 
@@ -35,8 +35,12 @@ Route::group(['prefix' => '/articles','middleware' => 'auth'], function(){
     Route::post('', [ArticleController::class, 'store']);
 });
 
-
-Route::post('/article-comments', [ArticleCommentController::class, 'store']);
+Route::group(['prefix' => '/comment'], function(){
+    Route::get('', [ArticleCommentController::class, 'index'])->name('index');
+    Route::post('/create', [ArticleCommentController::class, 'store']);
+    Route::get('/{id}/accept', [ArticleCommentController::class, 'accept']);
+    Route::get('/{id}/delete', [ArticleCommentController::class, 'destroy']);
+});
 
 
 Route::get('/registration', [AuthController::class, 'index']);

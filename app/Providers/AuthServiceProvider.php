@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         
-        Gate::before(function ($user) {
+        Gate::define('moderator', function ($user) {
             if ($user->role_id == 1) {
                 return true;
             }

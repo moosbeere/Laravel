@@ -1,4 +1,8 @@
 @extends('layouts.layout')
+@section('comment')
+    <a class="nav-link active" href="/articles/{{$article->id}}/edit">Редактировать</a>
+    <a class="nav-link active" href="/articles/{{$article->id}}/delete">Удалить</a>
+@endsection
 @section('content')
     <h3>{{$article->name}}</h3>
     <i>{{$article->data_create}}</i>
@@ -12,13 +16,16 @@
 
     {{ $comments ->links() }}
     <br>
-    @canany('update-article', 'delete-article')
-    <a class="btn btn-pramery" href="/articles/{{$article->id}}/edit">Редактировать</a>
-    <a class="btn btn-primery" href="/articles/{{$article->id}}/delete">Удалить</a>
-    @endcan
 
+    @isset($_GET['result'])
+    @if($_GET['result'] == 1)
+        <b>Ваш комментарий добавлен и ожидает модерации</b>
+    @endif
+    @endisset
+    <br>
+    
     <div class="col-sm-4">
-        <form method="POST" action="/article-comments">
+        <form method="POST" action="/comment/create">
             @csrf
             <input type="hidden" name="article_id" value="{{$article->id}}"/>
 
