@@ -18,9 +18,13 @@
     <br>
     @isset($_GET['result'])
         @if($_GET['result'] == 1)
-            <span>Ваш комментарий отправлен на модерацию.</span>
+        <b>Ваш комментарий ожидает модерации.</b>
         @endif
     @endisset
+    <br>
+    <br>
+    <br>
+
     <form method="POST" action="/comment/{{$article->id}}/create">
             @csrf
             <!-- <input type="hidden" name="article_id" value="{{$article->id}}"/> -->
