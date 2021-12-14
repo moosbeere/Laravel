@@ -38,7 +38,7 @@ class ArticleController extends Controller
 
     public function show($id){
         $article = Articles::findOrFail($id);
-        $comment = ArticleComment::where('article_id', $id)->paginate(3);
+        $comment = ArticleComment::where('article_id', $id)->where('accept', 1)->paginate(3);
         return view('articles.view', ['article' => $article, 'comments'=>$comment]);
     }
 
@@ -61,7 +61,9 @@ class ArticleController extends Controller
 
     public function destroy($id){
         Gate::authorize('delete-article');
-        Articles::findOrFail($id)->delete();
+        $article = Articles::findOrFail($id);
+        ArticleCommment::where('article_id', $id)->delete();
+        $article->delete();
         return redirect('/articles');
     }
 }

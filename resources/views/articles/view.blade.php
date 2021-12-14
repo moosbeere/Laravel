@@ -1,13 +1,13 @@
 @extends('layouts.layout')
+@section('comment')
+        <a href="/articles/{{$article->id}}/edit" class="nav-link active">Редактировать</a>
+        <a href="/articles/{{$article->id}}/delete" class="nav-link active">Удалить</a>
+@endsection
 @section('content')
     <h2>{{ $article -> name}}</h2>
     <i>{{ $article -> data_create}}</i>
     <p>{{ $article -> short_text}}</p>
 
-    @canany('update-article', 'delete-article')
-        <a href="/articles/{{$article->id}}/edit" class="btn btn-secondary">Редактировать</a>
-        <a href="/articles/{{$article->id}}/delete" class="btn btn-primary">Удалить</a>
-    @endcan
     <br/>
     <br/>
     <h4>Комментарии</h4>
@@ -18,7 +18,13 @@
     <br>
     <div> {{ $comments->links() }}</div>
 
-    <form action="/articles/{{ $article->id }}/comments" method="post">
+    <br>
+    @isset($_GET['result'])
+    @if ($_GET['result'] == 1)
+    <b>Ваш комментарий ожидает модерацию</b>
+    @endif
+    @endisset
+    <form action="/comment/{{ $article->id }}/create" method="post">
         @csrf
         <h3>Добавить комментарий</h1>
         <div>

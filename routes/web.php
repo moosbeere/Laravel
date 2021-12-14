@@ -21,12 +21,18 @@ Route::get('/', function(){
 Route::group(['prefix'=>'/articles', 'middleware'=>'auth'], function(){
     Route::get('', [ArticleController::class,'index']);
     Route::get('/create', [ArticleController::class, 'create']);
-    Route::get('/{id}', [ArticleController::class, 'show']);
+    Route::get('/{id}', [ArticleController::class, 'show'])->name('show');
     Route::get('/{id}/edit', [ArticleController::class, 'update']);
     Route::get('/{id}/delete', [ArticleController::class, 'destroy']);
     Route::post('/{id}/edit', [ArticleController::class, 'store']);
-    Route::post('/{id}/comments', [ArticleCommentController::class, 'store']);
     Route::post('', [ArticleController::class, 'store']);
+});
+
+Route::group(['prefix' => '/comment', 'middleware'=>'auth'], function(){
+    Route::get('', [ArticleCommentController::class, 'index'])->name('index');
+    Route::get('/{id}/accept', [ArticleCommentController::class, 'accept']);
+    Route::post('/{id}/create', [ArticleCommentController::class, 'store']);
+    Route::get('/{id}/delete', [ArticleCommentController::class, 'destroy']);
 });
 
 Route::get('/about', [ArticleController::class,'contact']);
