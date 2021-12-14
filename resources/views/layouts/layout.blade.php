@@ -26,20 +26,17 @@
                             @yield('comment')
                             <a class="nav-link" href="/comment">Комментарии</a>
                         @endcan
-                        <a class="nav-link" href="/about">О нас</a>
-
-
-                        
+                        <a class="nav-link" href="/about">О нас</a>                        
                     </div>
-                    <div class="navbar-nav">
+                </div>
+            </div>
+            <div class="navbar-nav d-flex justify-content-end">
                     @if (Auth::guest())
                         <a class="nav-link" href="/registration">Зарегитрироваться</a>
                         <a class="nav-link" href="/auth/signin">Войти</a>
                     @else
                         <a class="nav-link" href="/signout">Выход</a>
                     @endif
-                   </div>
-                </div>
             </div>
         </nav>
         <div class="container">
