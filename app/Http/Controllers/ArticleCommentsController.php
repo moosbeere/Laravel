@@ -42,7 +42,7 @@ class ArticleCommentsController extends Controller
                 $new_comment->comment = $comment;
                 $new_comment->article()->associate($article);
                 $result = $new_comment->save();
-                VeryLongJob::dispatch($article->name);
+                VeryLongJob::dispatch($article);
                 return redirect()->route('view', ['id' => $article->id, 'result' => $result]);                
             }
         }

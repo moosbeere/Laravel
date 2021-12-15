@@ -16,14 +16,16 @@ class VeryLongJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $article;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
+   
 
-     protected $article;
-    public function __construct($article)
+    public function __construct(Articles $article)
     {
         $this->article = $article;
     }
@@ -35,7 +37,7 @@ class VeryLongJob implements ShouldQueue
      */
     public function handle()
     {
-        $testMail = new TestMail('Для статьи с названием "'.$this->$article.'"создан новый комментарий. Новые комментарии требуют модерации');
+        $testMail = new TestMail('Для статьи с названием "'.$this->article->name.'"создан новый комментарий. Новые комментарии требуют модерации');
         Mail::send($testMail);
     }
 }
