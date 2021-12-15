@@ -7,6 +7,7 @@ use App\Models\ArticleComment;
 use App\Models\Articles;
 use App\Mail\TestMail;
 use Illuminate\Support\Facades\Mail;
+use App\Jobs\VeryLongJob;
 
 class ArticleCommentController extends Controller
 {
@@ -34,14 +35,13 @@ class ArticleCommentController extends Controller
                 $comment_title = request('comment_title');
                 $comment = request('comment');
                 if($comment && $comment_title){
-                    $new_comment = new \App\Models\ArticleComment();
+                    $new_comment = new ArticleComment();
                     $new_comment->title = $comment_title;
                     $new_comment->comment = $comment;
                     $new_comment->article()->associate($article);
                     $result = $new_comment->save();
                     if ($result){
-                        $testMail = new TestMail('Для статьи'.$article->name.'создан новый комментарий. Ожидает модерации.');
-                        Mail::send($testMail);
+                        VeryLongJob::dispatch($article);
                     }
                     return redirect()->route('view', ['id' => $article->id, 'result' => $result]);
                 }else{
