@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Articles;
 use App\Models\ArticleComment;
+use App\Jobs\VeryLongJob;
 
 class ArticleCommentController extends Controller
 {
@@ -29,8 +30,7 @@ class ArticleCommentController extends Controller
                 $new_comment->article()->associate($article);
                 $result = $new_comment->save();
                 if ($result){
-                    $testMail = new TestMail('Для статьи '.$article->name.'создан комментарий. Он ожидает модерации');
-                    Mail::send($testMail);
+                    VeryLongJob::dispatch($article);
                 }
                 return redirect()->route('show', ['id' => $article->id, 'result' => $result]);
             }
