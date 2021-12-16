@@ -19,9 +19,12 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                     <div class="navbar-nav">
-                        <a class="nav-link" href="/">Главная</a>
-                        <a class="nav-link" href="/articles">Статьи</a>
-                        <a class="nav-link" href="/about">О нас</a>
+                        <a class="nav-link @linkactive('/')" href="/">Главная</a>
+                        <a class="nav-link @linkactive('articles')" href="/articles">Статьи</a>
+                        @can('create')
+                            <a class="nav-link @linkactive('comment')" href="/comment">Комментарии</a>
+                        @endcan
+                        <a class="nav-link @linkactive('about')" href="/about">О нас</a>
                     </div>
                 </div>
             </div>

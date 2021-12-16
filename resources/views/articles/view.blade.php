@@ -8,11 +8,17 @@
     <div>
         @foreach($comments as $comment)
             <b>{{ $comment->title }}</b>
-            <p>{{ $comment->comment }}</p>
+            <p>{{ $comment->comment}}</p>
         @endforeach
     </div>
     <br>
     {{ $comments -> links() }}
+    <br>
+    @isset($_GET['result'])
+        @if($_GET['result'] == 1)
+            <b>Ваш комментарий ожидет модерации!</b>
+        @endif
+    @endisset
     <br>
     @canany('update-article', 'delete-article')
     <a href="/articles/{{$article->id}}/edit" class="btn">Редактировать</a>
@@ -20,7 +26,7 @@
     @endcan
 
 
-    <form action="/articles/{{ $article->id }}/comment" method="post">
+    <form action="/comment/{{ $article->id }}/create" method="post">
         @csrf
         <h3>Оставить комментарий</h3>
         <label for="title">Тема</label>

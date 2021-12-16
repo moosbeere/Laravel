@@ -35,13 +35,6 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
-        // Gate::define('create-article', function(?User $user){
-        //     $role = Role::where('name', 'reader')->value('id');
-        //     if($user->role_id == $role){
-        //         return Response::deny('В доступе отказано!');
-        //     } return Response::allow();
-        // });
-
         Gate::define('update-article', function(?User $user){
             $role = Role::where('name', 'reader')->value('id');
             if($user->role_id == $role){
