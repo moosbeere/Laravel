@@ -22,7 +22,7 @@
                     <div class="navbar-nav">
                         <a class="nav-link @linkactive('/')" href="/" >Главная</a>
                         <a class="nav-link @linkactive('articles')" href="/articles">Статьи</a>
-                    @can('moderator')
+                    @can('moderator', \App\Http\Controllers\ArticleController::class)
                         <a class="nav-link @linkactive('articles/create')" href="/articles/create">Создать</a>
                     @yield('link')
                         <a class="nav-link @linkactive('comment')" href="/comment">Комментарии</a>

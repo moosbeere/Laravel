@@ -3,10 +3,11 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\odel;
+use App\Models\Role;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
-class ArticlePolicy
+class ArticleControllerPolicy
 {
     use HandlesAuthorization;
 
@@ -16,7 +17,14 @@ class ArticlePolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+
+     public function moderator(User $user){
+        $role = Role::where('name', 'moderator')->value('id');
+        if ($user->role_id == $role){
+            return true;
+        }
+     }
+     public function viewAny(User $user)
     {
         //
     }
@@ -41,7 +49,12 @@ class ArticlePolicy
      */
     public function create(User $user)
     {
-        //
+        $role = Role::where('name', 'moderator')->value('id');
+        if ($user->role_id == $role){
+            return Response::allow('Вам разрешено');
+        }
+        return Response::deny('Вам запрещено.');
+        
     }
 
     /**

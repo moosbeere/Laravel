@@ -21,10 +21,9 @@ class ArticleController extends Controller
     }
 
     public function create(){
-        if(Gate::check('create-articles'))
+
+        $this->authorize('create', [self::class]);
             return view('articles.create');
-        else 
-            return ('В доступе отказано');
     }
 
     public function store($id=null, Request $request){
@@ -53,7 +52,6 @@ class ArticleController extends Controller
     }
 
     public function edit($id){
-        Gate::authorize('update-articles');
         $article = Articles::findOrFail($id);
         return view('articles.update', ['article'=>$article]);
     }
