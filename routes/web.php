@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\ArticleCommentsController;
 use App\Models\User;
+use App\Events\PublicArticle;
 
 
 /*
@@ -18,8 +19,6 @@ use App\Models\User;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
 Route::get('/', function () {
     // $testMail = new App\Mail\TestMail('hello');
     // Mail::send($testMail);

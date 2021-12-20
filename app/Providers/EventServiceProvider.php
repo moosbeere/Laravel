@@ -27,6 +27,12 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Event::listen(
+            PublicArticle::class,
+            [SendArticleNotification::class, 'handle']
+        );
+        Event::listen(function(PublicArticle $event){
+            //
+        });
     }
 }

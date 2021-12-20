@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Models\Articles;
 use App\Models\Role;
+use App\Models\User;
 use App\Models\ArticleComment;
-
+use App\Notifications\ArticleNotification;
+use Illuminate\Support\Facades\Notification;
 
 
 
@@ -27,20 +29,26 @@ class ArticleController extends Controller
     }
 
     public function store($id=null, Request $request){
+
        
         $request->validate([
             'name' => 'required',
             'date' => 'required'
         ]);
 
-        if ($id == null) $article = new Articles();
+        if ($id == null) {
+            $article = new Articles();
+            // PublicArticle::dispatch($article);
+        }
+
         else $article = Articles::findOrFail($id);
         $article->name = request('name');
         $article->short_text = request('description');
         $article->data_create = request('date');
-        $article->save();
-        if ($id == null) return redirect('/articles');
-        else return redirect('/articles/'.$id);
+        $result = $article->save();
+        $user = User::where('id', '!=', auth()->user()->id)->get();
+        if (Notification::send($user, new ArticleNotification(Articles::latest('id')->first())))
+        return redirect('/articles/'.$article->id);
     }
 
     public function view($id){

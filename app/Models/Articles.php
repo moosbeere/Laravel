@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Articles extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     public function comments(){
         return $this->hasMany(ArticleComment::class,'article_id');
