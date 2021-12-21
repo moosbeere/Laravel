@@ -32,5 +32,11 @@ Vue.component('modal', require('./components/Modal.vue').default);
 
 const app = new Vue({
     el: '#app',
+    // created(){
+    //     window.Echo.channel('test')
+    //     .listen('EventPublicArticle', (e) =>{
+    //         console.log('cool');
+    //     })
+    
 
 });

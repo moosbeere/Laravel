@@ -6,8 +6,7 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\ArticleCommentsController;
 use App\Models\User;
-use App\Events\PublicArticle;
-
+use App\Events\EventPublicArticle;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,4 +59,13 @@ Route::get('/about', function () {
 
     return view('about',['contact' => $contact,]);
 });
+
+Route::get('/event', function(){
+    event(new EventPublicArticle('bla'));
+});
+
+Route::get('/listen', function(){
+        return view('listen');
+});
+
 ?>

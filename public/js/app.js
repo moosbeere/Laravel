@@ -5282,23 +5282,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mounted: function mounted() {
-    alert('hello');
+  mounted: function mounted() {// window.Echo.channel('test')
+    // .listen('EventPublicArticle', ({article}) =>{
+    //   alert(`Добавлена статья ${article['name']}`);
+    // })
   }
 });
 
@@ -5340,7 +5328,12 @@ Vue.component('modal', (__webpack_require__(/*! ./components/Modal.vue */ "./res
  */
 
 var app = new Vue({
-  el: '#app'
+  el: '#app' // created(){
+  //     window.Echo.channel('test')
+  //     .listen('EventPublicArticle', (e) =>{
+  //         console.log('cool');
+  //     })
+
 });
 
 /***/ }),
@@ -34196,63 +34189,9 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("b", [_vm._v("boooo")])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "collapse navbar-collapse",
-        attrs: { id: "navbarSupportedContent" },
-      },
-      [
-        _c("ul", { staticClass: "navbar-nav me-auto mb-2 mb-lg-0" }, [
-          _c("li", { staticClass: "nav-item dropdown" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link dropdown-toggle",
-                attrs: {
-                  href: "#",
-                  id: "navbarDropdown",
-                  role: "button",
-                  "data-bs-toggle": "dropdown",
-                  "aria-expanded": "false",
-                },
-              },
-              [_vm._v("\n            Уведомления\n          ")]
-            ),
-            _vm._v(" "),
-            _c(
-              "ul",
-              {
-                staticClass: "dropdown-menu",
-                attrs: { "aria-labelledby": "navbarDropdown" },
-              },
-              [
-                _vm._v(
-                  "\n            @foreach(auth()->user()->unreadNotifications as $notification)\n             "
-                ),
-                _c("li", [
-                  _c(
-                    "a",
-                    { staticClass: "dropdown-item", attrs: { href: "#" } },
-                    [_vm._v("Action")]
-                  ),
-                ]),
-                _vm._v("\n            @endforeach\n          "),
-              ]
-            ),
-          ]),
-        ]),
-      ]
-    )
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

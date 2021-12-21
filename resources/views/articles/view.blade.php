@@ -4,6 +4,13 @@
     <a class="nav-link active" href="/articles/{{$article->id}}/delete">Удалить</a>
 @endsection
 @section('content')
+<!-- @if(!Auth::guest()) -->
+        <div id="app">
+        <example-component>
+</example-component>
+</div>
+<!-- @endif -->
+
     <h3>{{$article->name}}</h3>
     <i>{{$article->data_create}}</i>
     <p>{{$article->short_text}}</p>
@@ -24,6 +31,8 @@
     <br>
     <br>
     <br>
+
+    
 
     <form method="POST" action="/comment/{{$article->id}}/create">
             @csrf

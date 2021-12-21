@@ -62,18 +62,12 @@
             </div>
         </nav>
         <div class="container">
-            @yield('content')
         <div id="app">
-        <template>
-  
-            <div class="flex-center position-ref full-height">
-                <div class="content">
-                    <example-component></example-component>
-                </div>
-            </div>
-  
-        </template>
-        </div>
+        <example-component>
+</example-component>
+</div>
+            @yield('content')
+
         </div>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>

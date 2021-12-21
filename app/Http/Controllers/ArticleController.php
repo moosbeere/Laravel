@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\ArticleComment;
 use App\Notifications\ArticleNotification;
 use Illuminate\Support\Facades\Notification;
+use App\Events\EventPublicArticle;
 
 
 
@@ -47,7 +48,9 @@ class ArticleController extends Controller
         $article->data_create = request('date');
         $result = $article->save();
         $user = User::where('id', '!=', auth()->user()->id)->get();
-        if (Notification::send($user, new ArticleNotification(Articles::latest('id')->first())))
+        event(new EventPublicArticle($article->id));
+        // EventPublicArticle::dispatch($article->id);
+        Notification::send($user, new ArticleNotification(Articles::latest('id')->first()));
         return redirect('/articles/'.$article->id);
     }
 
