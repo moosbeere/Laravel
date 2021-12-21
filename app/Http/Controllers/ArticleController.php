@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Articles;
+use App\Models\User;
 use App\Models\ArticleComment;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ArticleNotification;
+use App\Events\EventPublicArticle;
+
 
 class ArticleController extends Controller
 {
@@ -26,14 +31,8 @@ class ArticleController extends Controller
     }
 
     public function create(){
-        $response = Gate::inspect('create');
-        if ($response->allowed()) {
             return view('articles.create');
-        } else {
-            $response->message('1234');
-            var_dump($response);
-        }
-        
+             
     }
 
     public function show($id){
@@ -49,6 +48,10 @@ class ArticleController extends Controller
             $article->short_text = request('description');
             $article->data_create = request('date');
             $article->save();
+            $user = User::where('id', '!=', auth()->user()->id)->get();
+            Notification::send($user, new ArticleNotification($article));
+
+            event(new EventPublicArticle($article->name));
         return redirect('/articles/'.$article->id);
 
     }
