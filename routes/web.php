@@ -58,3 +58,8 @@ Route::get('/about', function () {
 
     return view('about',['contact' => $contact]);
 });
+
+
+Route::get('/listen', function(){
+    return view('listen');
+});

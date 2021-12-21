@@ -3,12 +3,14 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>Laravel</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ asset('css/app.js')}}">
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -35,6 +37,29 @@
                         <a class="nav-link" href="/registration">Зарегитрироваться</a>
                         <a class="nav-link" href="/auth/signin">Войти</a>
                     @else
+                        <div id="app">
+                        <template>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                             <ul class="navbar-nav me-auto mb-2 mb-lg-0">      
+                             <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Уведоления <span class="badge bg-info text-dark">
+                                    {{ auth()->user()->unreadNotifications->count()}}</span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @foreach(auth()->user()->unreadNotifications as $notification)
+                                <li><a class="dropdown-item" href="#">
+                                    {{ $notification->data['article']['name'] }}
+                                </a></li>
+                                @endforeach
+                            </ul>
+                            </li> 
+                            </ul>
+                            </div>
+                        </template>
+
+                        </div>
+
                         <a class="nav-link" href="/signout">Выход</a>
                     @endif
             </div>
@@ -42,5 +67,6 @@
         <div class="container">
             @yield('content')
         </div>
+        <script src="{{ asset('js/app.js')}}"></script>
     </body>
 </html>

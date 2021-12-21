@@ -4,14 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Articles;
+use App\Models\User;
 use App\Models\ArticleComment;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ArticleNotification;
+use App\Events\EventPublicArticle;
 
 
 class ArticleController extends Controller
 {
     public function index(){
-        $aricles = Articles::paginate(3);
+        $aricles = Articles::paginate(7);
 
         return view('articles.index',['articles'=> $aricles]);
     }
@@ -29,7 +33,11 @@ class ArticleController extends Controller
             $article->short_text = request('description');
             $article->data_create = request('date');
             $article->save();
+            $user = User::where('id', '!=', auth()->user()->id)->get();
+            Notification::send($user, new ArticleNotification($article));
 
+            event(new EventPublicArticle($article->name));
+            
         return redirect('/articles/'.$article->id);
     }
 
