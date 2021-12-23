@@ -9,7 +9,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
 
-class ArticlesPolicy
+class ArticlesControllerPolicy
 {
     use HandlesAuthorization;
 

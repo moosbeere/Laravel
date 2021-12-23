@@ -6,22 +6,31 @@ use Illuminate\Http\Request;
 use App\Models\Articles;
 use App\Models\ArticleComment;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Cache;
 
-class ArticleController extends Controller
+class ArticlesController extends Controller
 {
     public function index(){
-        $articles = Articles::paginate(3);
+        $currentPage = request()->get('page',1);
+        $articles = Cache::rememberForever('articles:all'.$currentPage, function(){
+            return Articles::paginate(7);
+        });
        return view('articles.index', ['articles' => $articles]);
     }
 
     public function create(){
-        Gate::authorize('create');
+        $this->authorize('create', [self::class]);
         return view('articles.create');
     }
 
     public function show($id){
-        $article = Articles::findOrFail($id);
-        $comment = ArticleComment::where('article_id', $id)->where('accept', 1)->paginate(3);
+        $article = Cache::rememberForever('article:'.$id, function()use($id){
+            return Articles::findOrFail($id);
+        });
+        dd($article);
+        $comment = Cache::rememberForever('article:comment:'.$id, function()use($id){
+            return ArticleComment::where('article_id', $id)->where('accept', 1)->paginate(3);
+        });
         return view('articles.view', ['article' => $article, 'comments'=>$comment]);
     }
 
@@ -32,12 +41,15 @@ class ArticleController extends Controller
             $article->short_text = request('description');
             $article->data_create = request('date');
             $article->save();
+            Cache::forget('articles:all');
         return redirect('/articles/'.$article->id);
     }
 
     public function update($id){
         Gate::authorize('update-article');
         $article = Articles::findOrFail($id);
+        Cache::forget('articles:all');
+        Cache::forget('article:'.$id);
         return view('articles.edit', ['article' => $article]);
     }
 
@@ -45,6 +57,9 @@ class ArticleController extends Controller
 
         Gate::authorize('delete-article');
         Articles::findOrFail($id)->delete();
+        Cache::forget('articles:all');
+        Cache::forget('article:'.$id);
+        Cache::forget('article:comment:'.$id);
         return redirect('/articles');
     }
 }

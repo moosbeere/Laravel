@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ArticlesController;
 use App\Http\Controllers\ArticleCommentController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Mail;
@@ -24,13 +24,13 @@ Route::get('/', function () {
 });
 
 Route::group(['prefix'=>'/articles', 'middleware'=>'auth'], function(){
-    Route::get('', [ArticleController::class, 'index']);
-    Route::get('/create', [ArticleController::class, 'create']);
-    Route::get('/{id}', [ArticleController::class, 'show'])->name('show');
-    Route::get('/{id}/edit', [ArticleController::class, 'update']);
-    Route::post('/{id}/edit', [ArticleController::class, 'store']);
-    Route::get('/{id}/delete', [ArticleController::class, 'delete']);
-    Route::post('', [ArticleController::class, 'store']);
+    Route::get('', [ArticlesController::class, 'index']);
+    Route::get('/create', [ArticlesController::class, 'create']);
+    Route::get('/{id}', [ArticlesController::class, 'show'])->name('show');
+    Route::get('/{id}/edit', [ArticlesController::class, 'update']);
+    Route::post('/{id}/edit', [ArticlesController::class, 'store']);
+    Route::get('/{id}/delete', [ArticlesController::class, 'delete']);
+    Route::post('', [ArticlesController::class, 'store']);
 });
 
 Route::group(['prefix' => '/comment', 'middleware'=>'auth'], function(){
