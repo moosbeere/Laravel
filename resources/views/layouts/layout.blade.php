@@ -62,12 +62,7 @@
             </div>
         </nav>
         <div class="container">
-        <div id="app">
-        <example-component>
-</example-component>
-</div>
             @yield('content')
-
         </div>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
