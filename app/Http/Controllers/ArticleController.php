@@ -20,11 +20,12 @@ class ArticleController extends Controller
 {
     public function index(){
         $roles = Role::all();
-        $articles = Cache::rememberForever('articles:paginate(5)', function(){
+        $currentPage = request('page');
+        $articles = Cache::rememberForever('articles:paginate(5)'.$currentPage, function(){
             return Articles::paginate(5);
         });
-        // return response()->json($articles);
-        return view('articles.index',['articles'=> $articles, 'roles' => $roles]);
+        return response()->json($articles);
+        // return view('articles.index',['articles'=> $articles, 'roles' => $roles]);
     }
 
     public function create(){

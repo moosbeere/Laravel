@@ -1,0 +1,7 @@
+{
+    "": "about",
+    "login": "api\/auth\/signin",
+    "create": "articles\/create",
+    "view": "articles\/{id}",
+    "index": "comment"
+}

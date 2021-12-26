@@ -23,7 +23,7 @@ Route::get('/', function () {
     // Mail::send($testMail);
     return view('main');
 });
-Route::group(['prefix' => '/articles', 'middleware' => 'auth'], function () {
+Route::group(['prefix' => '/articles', 'middleware' => 'auth:sanctum'], function () {
     Route::get('', [ArticleController::class,'index']);
     Route::get('/create', [ArticleController::class,'create'])->name('create');
     Route::get('/{id}', [ArticleController::class,'view'])->name('view');
@@ -32,6 +32,8 @@ Route::group(['prefix' => '/articles', 'middleware' => 'auth'], function () {
     Route::post('/{id}/update', [ArticleController::class,'store']);
     Route::post('', [ArticleController::class, 'store']);
   });
+
+  Route::get('/signout', [AuthController::class, 'signout'])->middleware('auth:sanctum');
 
 Route::group(['prefix'=>'comment'], function(){
     Route::get('',[ArticleCommentsController::class, 'index'])->name('index');
@@ -42,8 +44,8 @@ Route::group(['prefix'=>'comment'], function(){
 
 
 Route::get('/registration', [AuthController::class, 'index']);
-Route::get('/auth/signin', [AuthController::class, 'login'])->name('login');
-Route::get('/signout', [AuthController::class, 'signout']);
+// Route::get('/auth/signin', [AuthController::class, 'login'])->name('login');
+
 Route::post('/auth/registration', [AuthController::class, 'registration']);
 Route::post('/auth/signin', [AuthController::class, 'customLogin']);
 Route::post('articles/{id}/comment', [ArticleCommentsController::class, 'store']);
@@ -58,14 +60,6 @@ Route::get('/about', function () {
     ];
 
     return view('about',['contact' => $contact,]);
-});
-
-Route::get('/event', function(){
-    event(new EventPublicArticle('bla'));
-});
-
-Route::get('/listen', function(){
-        return view('listen');
 });
 
 ?>
