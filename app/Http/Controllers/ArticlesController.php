@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Articles;
 use App\Models\ArticleComment;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\NewArticleNotification;
+use App\Events\EventNewArticle;
 
 class ArticlesController extends Controller
 {
@@ -27,7 +31,6 @@ class ArticlesController extends Controller
         $article = Cache::rememberForever('article:'.$id, function()use($id){
             return Articles::findOrFail($id);
         });
-        dd($article);
         $comment = Cache::rememberForever('article:comment:'.$id, function()use($id){
             return ArticleComment::where('article_id', $id)->where('accept', 1)->paginate(3);
         });
@@ -42,6 +45,11 @@ class ArticlesController extends Controller
             $article->data_create = request('date');
             $article->save();
             Cache::forget('articles:all');
+            $user = User::where('id', '!=', auth()->user()->id)->get();
+            Notification::send($user, new NewArticleNotification($article));
+            
+            event(new EventNewArticle($article));
+            
         return redirect('/articles/'.$article->id);
     }
 
