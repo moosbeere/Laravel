@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Articles;
 use App\Http\Controllers\AuthController;    
+use App\Http\Controllers\ArticleController;    
+use App\Http\Controllers\ArticleCommentsController;    
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,13 +17,21 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/products', function(){
-    return Articles::all();
+//Private routes
+Route::get('/signout', [AuthController::class, 'signout'])->middleware('auth:sanctum');
+
+Route::middleware('auth:sanctum')->resource('articles', ArticleController::class);
+
+Route::group(['prefix'=>'comment', 'middleware' => 'auth:sanctum'], function(){
+    Route::get('',[ArticleCommentsController::class, 'index'])->name('index');
+    Route::get('/{id}/accept', [ArticleCommentsController::class, 'accept']);
+    Route::delete('/{id}', [ArticleCommentsController::class, 'destroy']);
+    Route::post('/{id}', [ArticleCommentsController::class, 'store']);
 });
 
-Route::post('/auth/registration', [AuthController::class, 'registration']);
-Route::post('/auth/signin', [AuthController::class, 'customLogin'])->name('login');
-
+//public routes
+Route::get('/registration', [AuthController::class, 'index']);
+Route::get('/auth/signin', [AuthController::class, 'login'])->name('login');
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();

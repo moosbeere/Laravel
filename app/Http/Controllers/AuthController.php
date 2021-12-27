@@ -9,16 +9,17 @@ use Hash;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
-{
+{   
+    // front on laravel
     public function index(){
         return view('auth.registration');
     }
 
-    public function login(){
-        error_log('try');
+    public function customLogin(){
         return view('auth.signin');
     }
 
+    //api routing
     public function registration(Request $request){
         
         $request->validate([
@@ -42,16 +43,10 @@ class AuthController extends Controller
         ];
 
         return response($response, 201);
-        // $newuser = new User();
-        // $newuser->name = $request->input('name');
-        // $newuser->email = $request->input('email');
-        // $newuser->password = Hash::make($request->input('password'));
-        // $newuser->save();
-
-        // return redirect('/auth/signin')->withSuccess('Регистрация прошла успешно');
+        
     }
 
-    public function customLogin(Request $request){
+    public function login(Request $request){
         $request->validate([
             'email' => 'required',
             'password' => 'required'
@@ -62,7 +57,6 @@ class AuthController extends Controller
             return response([
                 'message' => 'Bad login', 401
             ]);
-        // return redirect('/auth/signin');
 
         }
         $user = User::where('email', $request->input('email'))->first();
@@ -74,7 +68,6 @@ class AuthController extends Controller
         ];
 
         return response($response, 201);
-            // return redirect('/articles')->withSuccess('Авторизация пройдена');
 
     }
 

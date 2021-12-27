@@ -14,77 +14,131 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Cache;
 use App\Events\EventPublicArticle;
 
-
-
 class ArticleController extends Controller
 {
-    public function index(){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $roles = Role::all();
         $currentPage = request('page');
         $articles = Cache::rememberForever('articles:paginate(5)'.$currentPage, function(){
             return Articles::paginate(5);
         });
         return response()->json($articles);
-        // return view('articles.index',['articles'=> $articles, 'roles' => $roles]);
     }
 
-    public function create(){
-        $this->authorize('create', [self::class]);
-            return view('articles.create');
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return response($this->authorize('create', [self::class]));
     }
 
-    public function store($id=null, Request $request){
-
-       
-        $request->validate([
-            'name' => 'required',
-            'date' => 'required'
-        ]);
-
-        if ($id == null) {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {       
+            $request->validate([
+                'name' => 'required',
+                'data_create' => 'required'
+            ]);
             $article = new Articles();
-        }
-
-        else $article = Articles::findOrFail($id);
-        $article->name = request('name');
-        $article->short_text = request('description');
-        $article->data_create = request('date');
-        $result = $article->save();
-        Cache::forget('articles:paginate(5)');
-        $user = User::where('id', '!=', auth()->user()->id)->get();
-        event(new EventPublicArticle($article->id));
-        Notification::send($user, new ArticleNotification(Articles::latest('id')->first()));
-        return redirect('/articles/'.$article->id);
+            $article->name = request('name');
+            $article->short_text = request('short_text');
+            $article->data_create = request('data_create');
+            $result = $article->save();
+            Cache::forget('articles:paginate(5)');
+            $user = User::where('id', '!=', auth()->user()->id)->get();
+            event(new EventPublicArticle($article->id));
+            Notification::send($user, new ArticleNotification(Articles::latest('id')->first()));
+            return response()->json([
+                'article' => $article
+            ]);
     }
 
-    public function view($id){
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
         $article =  Articles::findOrFail($id);
         Cache::put('article:'.$id, $article);
         $comments = ArticleComment::where('article_id', $id)->where('accept', 1)->paginate(3);
         Cache::put('article:comment'.$id, $comments);
         
+        return response()->json([
+            'article' => $article,
+            'comments' => $comments
+        ]);
 
-        return view('articles.view',['article'=>$article, 'comments'=>$comments]);
     }
 
-    public function edit($id){
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
         $article = Articles::findOrFail($id);
-        Cache::forget('articles:paginate(5)');
-        Cache::forget('article:'.$id);
-        return view('articles.update', ['article'=>$article]);
+        return response()->json([
+            'article' => $article
+        ]);
     }
 
-    public function destroy($id){
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+            $request->validate([
+                'name' => 'required',
+            ]);
+            $article = Articles::findOrFail($id);
+            $article->name = request('name');
+            $article->short_text = request('short_text');
+            $article->data_create = request('data_create');
+            $article->save();
+            Cache::forget('articles:paginate(5)');
+            Cache::forget('article:'.$id);
+            return response()->json([
+                'article' => $article
+            ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
         $article = Articles::findOrFail($id);
         ArticleComment::where('article_id', $article->id)->delete();
-        $article->delete();
         Cache::forget('articles:paginate(5)');
         Cache::forget('article:'.$id);
         Cache::forget('article:comment'.$id);
 
-        return redirect ('/articles');
+        return response($article->delete());
     }
 }
-
-
-       

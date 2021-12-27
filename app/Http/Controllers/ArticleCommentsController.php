@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Articles;
 use App\Models\ArticleComment;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\TestMail;
 use App\Jobs\VeryLongJob;
 
 class ArticleCommentsController extends Controller
@@ -16,25 +14,31 @@ class ArticleCommentsController extends Controller
         foreach($comment as $one_comment){
             $article[] = Articles::find($one_comment->article_id);
         }
-        return view('comment.index', ['comment' => $comment, 'article' => $article]);
+        return response()->json([
+            'comment' => $comment,
+            'article' => $article
+        ]);
+        // return view('comment.index', ['comment' => $comment, 'article' => $article]);
     }
 
     public function accept($id){
         $comment = ArticleComment::findOrFail($id);
         $comment->accept = 1;
         $comment->save();
-        return redirect()->route('index');
+        return response()->json([
+            'comment' => $comment
+        ]);
+        // return redirect()->route('index');
     }
 
     public function destroy($id){
-        ArticleComment::findOrFail($id)->delete();
-        return redirect()->route('index');
+        return response(ArticleComment::findOrFail($id)->delete());
     }
 
     public function store($id){
         $article = Articles::find($id);
         if ($article){
-            $comment_title = request('comment_title');
+            $comment_title = request('title');
             $comment = request('comment');
             if ($comment && $comment_title){
                 $new_comment = new ArticleComment();
@@ -43,7 +47,11 @@ class ArticleCommentsController extends Controller
                 $new_comment->article()->associate($article);
                 $result = $new_comment->save();
                 VeryLongJob::dispatch($article);
-                return redirect()->route('view', ['id' => $article->id, 'result' => $result]);                
+                return response()->json([
+                    'comment' => $new_comment,
+                    'result' => $result
+                ]);
+                // return redirect()->route('view', ['id' => $article->id, 'result' => $result]);                
             }
         }
     }
