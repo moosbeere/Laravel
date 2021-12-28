@@ -11,39 +11,93 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\ArticleNotification;
 use App\Events\EventPublicArticle;
 
-
 class ArticleController extends Controller
 {
-    public function index(){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $articles = Articles::paginate(3);
-        return view('articles.index', ['articles' => $articles]);
-    }
-    
-    public function contact(){
-        $contact=[
-            'adres'=>'Большая семеновская',
-            'tel'=>'8(495)232-2323',
-            'email'=>'@mospolitech.ru'
-        ];
-
-
-        return view('contact', ['contact'=>$contact]);
+        return response()->json([
+            'articles' => $articles
+        ]);
     }
 
-    public function create(){
-            return view('articles.create');
-             
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //return response(this->autorize('create', self::class));
     }
 
-    public function show($id){
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $article = new Articles();
+            $article->name = request('name');
+            $article->short_text = request('description');
+            $article->data_create = request('date');
+            $article->save();
+            $user = User::where('id', '!=', auth()->user()->id)->get();
+            Notification::send($user, new ArticleNotification($article));
+            event(new EventPublicArticle($article->name));
+
+        return response()->json([
+            'article' => $article
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
         $article = Articles::findOrFail($id);
         $comment = ArticleComment::where('article_id', $id)->where('accept', 1)->paginate(3);
-        return view('articles.view', ['article' => $article, 'comments'=>$comment]);
+        return response()->json([
+            'article' => $article,
+            'comments' => $comment
+        ]);
     }
 
-    public function store($id = null){
-        if ($id == null) $article = new Articles();
-        else $article = Articles::findOrFail($id);
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $article = Articles::findOrFail($id);
+        return response()->json([
+            'article' => $article,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+            $article = Articles::findOrFail($id);
             $article->name = request('name');
             $article->short_text = request('description');
             $article->data_create = request('date');
@@ -51,23 +105,28 @@ class ArticleController extends Controller
             $user = User::where('id', '!=', auth()->user()->id)->get();
             Notification::send($user, new ArticleNotification($article));
 
-            event(new EventPublicArticle($article->name));
-        return redirect('/articles/'.$article->id);
-
+            return response()->json([
+                'article' => $article
+            ]);
     }
 
-    public function update($id){
-        Gate::authorize('update-article');
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $accept = Gate::authorize('delete-article');
         $article = Articles::findOrFail($id);
-        return view('articles.edit', ['article' => $article]);
-    }
+        ArticleComment::where('article_id', $id)->delete();
+        $result = ($article->delete());
+        $response = [
+            'accept' => $accept,
+            'result' => $result
+        ];
 
-    public function destroy($id){
-        Gate::authorize('delete-article');
-        $article = Articles::findOrFail($id);
-        ArticleCommment::where('article_id', $id)->delete();
-        $article->delete();
-        return redirect('/articles');
+        return response($response);
     }
 }
-

@@ -15,7 +15,11 @@ class ArticleCommentController extends Controller
         foreach($comments as $comment){
             $article[] = Articles::findOrFail($comment->article_id);
         }
-        return view('comment.index', ['comments' => $comments, 'article' => $article]);
+        return response()->json([
+            'comments' => $comments,
+            'article' => $article
+         ]);
+        // return view('comment.index', ['comments' => $comments, 'article' => $article]);
     }
 
     public function store($id){
@@ -32,7 +36,11 @@ class ArticleCommentController extends Controller
                 if ($result){
                     VeryLongJob::dispatch($article);
                 }
-                return redirect()->route('show', ['id' => $article->id, 'result' => $result]);
+                return response()->json([
+                    'comment' => $new_comment,
+                    'result' => $result
+                ]);
+                // return redirect()->route('show', ['id' => $article->id, 'result' => $result]);
             }
         }
     }
@@ -41,11 +49,15 @@ class ArticleCommentController extends Controller
         $comment = ArticleComment::findOrFail($id);
         $comment->accept = 1;
         $comment->save();
-        return redirect()->route('index');
+        return response()->json([
+            'comment' => $comment
+        ]);
+        // return redirect()->route('index');
     }
 
     public function destroy($id){
-        ArticleComment::findOrFail($id)->delete();
-        return redirect()->route('index');
+        return response(ArticleComment::findOrFail($id)->delete());
+
+        // return redirect()->route('index');
     }
 }

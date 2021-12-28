@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\User;
 use Hash;
 use Illuminate\Support\Facades\Auth;
@@ -21,20 +22,29 @@ class AuthController extends Controller
             'password'=>'required|min:6'
         ]);
 
-        $user = new User();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = Hash::make($request->input('password'));
-        $user->save();
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'role_id' => '2'
+        ]);
 
-        return redirect()->route('login')->withSuccess('Авторизация прошла успешно');
+        $token = $user->createToken('myapptoken')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+        // return redirect()->route('login')->withSuccess('Авторизация прошла успешно');
     }
 
-    public function login(){
-        return view('auth.login');
-    }
+    // public function login(){
+    //     return view('auth.login');
+    // }
 
-    public function customLogin(Request $request){
+    public function login(Request $request){
         
         $request->validate([
             'email'=>'required',
@@ -43,16 +53,32 @@ class AuthController extends Controller
 
         $credantials = $request->only('email', 'password');
         if (Auth::attempt($credantials)){
-            return redirect('/articles')->withSuccess('Вход выполнен');
+            $user = User::where('email', $request->input('email'))->first();
+            $token = $user->createToken('myapptoken')->plainTextToken;
+
+            $response = [
+                'user' => $user,
+                'token' => $token
+            ];
+    
+            return response($response, 201);            
         }
 
-        return redirect()->route('login')->withSuccess('В доступе откакзано, проверьте введенные данные');
+        return response([
+            'message' => 'В доступе отказано'
+        ], 401);
+        //return redirect()->route('login')->withSuccess('В доступе отказано, проверьте введенные данные');
     }
 
-    public function signOut(){
-        Auth::logout();
 
-        return redirect()->route('login');
+
+    public function signOut(){
+        auth()->user()->tokens()->delete();
+        return[
+            'message' => 'Logged out'
+        ];
+        // Auth::logout();
+        // return redirect()->route('login');
     }
 
 }

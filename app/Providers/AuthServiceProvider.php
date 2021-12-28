@@ -41,7 +41,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete-article', function(?User $user){
             $role = Role::where('name', 'reader')->value('id');
             if ($user->role_id == $role) return Response::deny('Нет доступа');
-            return Response::allow();
+            return Response::allow('bla bla');
         });
         
     }
