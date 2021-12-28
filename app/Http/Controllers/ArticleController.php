@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\ArticleComment;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Cache;
 use App\Notifications\ArticleNotification;
 use App\Events\EventPublicArticle;
 
@@ -15,7 +16,10 @@ use App\Events\EventPublicArticle;
 class ArticleController extends Controller
 {
     public function index(){
-        $aricles = Articles::paginate(7);
+        $currentPage = request('page');
+        $aricles = Cache::rememberForever('articles all'.$currentPage, function (){
+            return Articles::paginate(7);
+        });
 
         return view('articles.index',['articles'=> $aricles]);
     }
@@ -33,6 +37,8 @@ class ArticleController extends Controller
             $article->short_text = request('description');
             $article->data_create = request('date');
             $article->save();
+            Cache::forget('articles all');
+            Cache::forget('article'.$article->id);
             $user = User::where('id', '!=', auth()->user()->id)->get();
             Notification::send($user, new ArticleNotification($article));
 
@@ -42,8 +48,12 @@ class ArticleController extends Controller
     }
 
     public function view($id){
-        $article = Articles::findOrFail($id);
-        $comments = ArticleComment::where('article_id', $id)->where('accept', 1)->paginate(3);
+        $article = Cache::remember('article'. $id, 60, function(){
+            return Articles::findOrFail($id);
+        });
+        $comments = Cache::remember('article comment'.$id, 60, function(){
+            ArticleComment::where('article_id', $id)->where('accept', 1)->paginate(3);
+        });
         return view('articles.view',['article'=>$article, 'comments' => $comments]);
     }
 
@@ -59,6 +69,9 @@ class ArticleController extends Controller
         $article = Articles::findOrFail($id);
         ArticleComment::where('article_id', $article->id)->delete();
         $article->delete();
+        Cache::forget('articles all');
+        Cache::forget('article'.$article->id);
+        Cache::forget('article comment'.$id);
         return redirect('/articles');
 
     }
