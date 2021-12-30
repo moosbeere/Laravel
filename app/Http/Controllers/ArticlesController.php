@@ -3,43 +3,44 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Articles;
-use App\Models\ArticleComment;
-use App\Models\User;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\NewArticleNotification;
-use App\Events\EventNewArticle;
 
 class ArticlesController extends Controller
 {
-    public function index(){
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
         $currentPage = request()->get('page',1);
-        $articles = Cache::rememberForever('articles:all'.$currentPage, function(){
+        $articles = Cache::remember('articles:all'.$currentPage, 2000, function(){
             return Articles::paginate(7);
         });
-       return view('articles.index', ['articles' => $articles]);
+       return response()->json([
+           'articles' => $articles,
+       ]);
     }
 
-    public function create(){
-        $this->authorize('create', [self::class]);
-        return view('articles.create');
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return response($this->authorize('create', [self::class]));
     }
 
-    public function show($id){
-        $article = Cache::rememberForever('article:'.$id, function()use($id){
-            return Articles::findOrFail($id);
-        });
-        $comment = Cache::rememberForever('article:comment:'.$id, function()use($id){
-            return ArticleComment::where('article_id', $id)->where('accept', 1)->paginate(3);
-        });
-        return view('articles.view', ['article' => $article, 'comments'=>$comment]);
-    }
-
-    public function store($id = null){
-        if ($id == null) $article = new Articles();
-        else $article = Articles::findOrFail($id);
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+            $article = new Articles();
             $article->name = request('name');
             $article->short_text = request('description');
             $article->data_create = request('date');
@@ -50,25 +51,85 @@ class ArticlesController extends Controller
             
             event(new EventNewArticle($article));
             
-        return redirect('/articles/'.$article->id);
+            return response()->json([
+                'article' => $article
+            ]);
     }
 
-    public function update($id){
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $article = Cache::rememberForever('article:'.$id, function()use($id){
+            return Articles::findOrFail($id);
+        });
+        $comment = Cache::rememberForever('article:comment:'.$id, function()use($id){
+            return ArticleComment::where('article_id', $id)->where('accept', 1)->paginate(3);
+        });
+        return response()->Json([
+            'article' => $article,
+            'comment' => $comment
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
         Gate::authorize('update-article');
         $article = Articles::findOrFail($id);
         Cache::forget('articles:all');
         Cache::forget('article:'.$id);
-        return view('articles.edit', ['article' => $article]);
+        return response([
+            'article' => $article
+        ]);
     }
 
-    public function delete($id){
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+            $article = Articles::findOrFail($id);
+            $article->name = request('name');
+            $article->short_text = request('description');
+            $article->data_create = request('date');
+            $article->save();
+            Cache::forget('articles:all');
+            $user = User::where('id', '!=', auth()->user()->id)->get();
+            Notification::send($user, new NewArticleNotification($article));
+            
+            event(new EventNewArticle($article));
+            return response()->json([
+                'article' => $article
+            ]);
+    }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
         Gate::authorize('delete-article');
-        Articles::findOrFail($id)->delete();
         Cache::forget('articles:all');
         Cache::forget('article:'.$id);
         Cache::forget('article:comment:'.$id);
-        return redirect('/articles');
+        return response(Articles::findOrFail($id)->delete());
+
     }
 }
-
